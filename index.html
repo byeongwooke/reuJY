@@ -614,10 +614,10 @@
     /* ── Masonry Grid Layout ── */
     #archive-grid-container, #photography-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      grid-auto-rows: 10px; /* Precise dynamic masonry packing rows */
+      grid-template-columns: repeat(4, 1fr); /* Forced 4 Column layout for Adaptive Masonry Layout */
+      grid-auto-rows: 10px; /* Precise 10px row height for precision dynamic spacing */
       grid-auto-flow: dense;
-      gap: 15px;
+      gap: 20px; /* Enhanced 20px gap */
       padding: 40px;
       max-width: 1400px;
       margin: 0 auto;
@@ -739,6 +739,13 @@
     /* ══════════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      #archive-grid-container, #photography-grid {
+        grid-template-columns: repeat(2, 1fr) !important; /* Elegant 2 columns on tablet screens */
+        gap: 15px;
+      }
+    }
+
     @media (max-width: 600px) {
       #instagram-handle { font-size: 40px; letter-spacing: -0.5px; }
       #artist-name      { font-size: 12px; letter-spacing: 1.5px; }
@@ -750,8 +757,8 @@
       #art-object-frame { width: 90vw; }
       #exhibition-floating-card { bottom: 20px; right: 16px; }
 
-      #archive-grid-container {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      #archive-grid-container, #photography-grid {
+        grid-template-columns: 1fr !important; /* Symmetrical 1 column on phone screens */
         gap: 15px;
         padding: 20px;
       }
@@ -1036,13 +1043,11 @@
       const img = item.querySelector('.archive-item-image');
       if (!img) return;
 
-      const rowHeight = 10;
-      const rowGap = 15;
-      
       const setSpan = () => {
         const height = img.getBoundingClientRect().height || img.offsetHeight;
         if (height > 0) {
-          const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+          // Locked 10px rows ratio packing
+          const rowSpan = Math.ceil(height / 10);
           item.style.gridRowEnd = `span ${rowSpan}`;
         }
       };
@@ -1083,8 +1088,8 @@
         }
       });
 
-      // Clear grid
-      archiveGridContainer.innerHTML = '';
+      // Clear grid completely to prevent duplicate/residual visual artifacts
+      archiveGridContainer.replaceChildren();
       
       const images = (tab === 'photography') ? PHOTOGRAPHY_IMAGES : VISUALIZING_IMAGES;
       
