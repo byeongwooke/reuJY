@@ -1,0 +1,110 @@
+{
+  "artist_name": "REU JY (류지영)",
+  "statement": "Born in 1991, she is a visual artist based in Korea. She studied photography during an exchange semester at the Hochschule für Bildende Künste Braunschweig in Germany, and later earned a master’s degree in both plastic arts and photography at the École Supérieure des Beaux-Arts de Nîmes in France. Since 2016, she has participated in community-based public art projects in Seoul, and since 2024, she has been creating works that integrate photography with other media. Her practice explores texture, afterimages, and the spaces between perception and cognition.",
+  "solo_exhibitions": [
+    {
+      "year": "2025",
+      "title": "Ghost in Deja Vu",
+      "venue": "DeMA Gallery",
+      "location": "Seoul"
+    },
+    {
+      "year": "2023",
+      "title": "OS quiz",
+      "venue": "Binkan Euljiro",
+      "location": "Seoul"
+    },
+    {
+      "year": "2023",
+      "title": "Vio Frame",
+      "venue": "Youilbam Studio",
+      "location": "Seoul"
+    },
+    {
+      "year": "2021",
+      "title": "Naegative",
+      "venue": "Beomeo Art Street",
+      "location": "Daegu"
+    },
+    {
+      "year": "2019",
+      "title": "Reportage: Modele",
+      "venue": "SpaceBa",
+      "location": "Seoul"
+    },
+    {
+      "year": "2015",
+      "title": "Frame and Aperture",
+      "venue": "Heyri Art Village",
+      "location": "Paju"
+    }
+  ],
+  "group_exhibitions": [
+    {
+      "year": "2026",
+      "title": "Weaving",
+      "venue": "Mirine gallery, Osaka Korean Culture Center",
+      "location": "Japan"
+    },
+    {
+      "year": "2025",
+      "title": "Market AP : Collector's Salon",
+      "venue": "Hyundai department store, Cheonho",
+      "location": "Seoul"
+    },
+    {
+      "year": "2024",
+      "title": "Image-Nation",
+      "venue": "Collective Riz-rond, Etu'art",
+      "location": "Seoul"
+    },
+    {
+      "year": "2023",
+      "title": "Decalage Horaire",
+      "venue": "Collective Riz-rond, Etu'art",
+      "location": "Seoul"
+    },
+    {
+      "year": "2022",
+      "title": "Boundary Point",
+      "venue": "Diaf Young Artist Project, EXCO",
+      "location": "Daegu"
+    },
+    {
+      "year": "2022",
+      "title": "Overlapped Layers",
+      "venue": "Empty house project, Rice mill Geumsu",
+      "location": "Daegu"
+    },
+    {
+      "year": "2021",
+      "title": "Unconsciousness v Consciousness",
+      "venue": "Gallery Western, Los Angeles",
+      "location": "USA"
+    },
+    {
+      "year": "2020",
+      "title": "When the Sun and Moon Shine Brightly",
+      "venue": "Daelim Changgo Gallery",
+      "location": "Seoul"
+    },
+    {
+      "year": "2019",
+      "title": "Hello or Bye",
+      "venue": "SpaceBa, B-galleria, Turku",
+      "location": "Finland"
+    },
+    {
+      "year": "2016",
+      "title": "Sewoon Clock",
+      "venue": "SpaceBa",
+      "location": "Seoul"
+    },
+    {
+      "year": "2016",
+      "title": "Les jours d'après",
+      "venue": "ESBAN Gallery, Nîmes",
+      "location": "France"
+    }
+  ]
+}

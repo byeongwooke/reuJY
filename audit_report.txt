@@ -1,0 +1,66 @@
+==========================================================
+         ANTIGRAVITY ASSET INTEGRITY AUDIT REPORT
+==========================================================
+Directory Audited: /Users/yubyeong-ug/Desktop/reuJY/assets
+Total Photography Files Found: 29
+Total Visualizing Files Found: 14
+
+----------------------------------------------------------
+ 1. PHOTOGRAPHY ASSET AUDIT DETAILS
+----------------------------------------------------------
+[00] reujy_photography_0.jpg                  Size: 5.35 MB | Integrity: OK
+[01] reujy_photography_1.jpg                  Size: 5.35 MB | Integrity: OK
+[02] reujy_photography_10.jpg                 Size: 0.75 MB | Integrity: OK
+[03] reujy_photography_11.jpg                 Size: 8.77 MB | Integrity: OK
+[04] reujy_photography_12.jpg                 Size: 0.67 MB | Integrity: OK
+[05] reujy_photography_13.jpg                 Size: 1.29 MB | Integrity: OK
+[06] reujy_photography_14.jpg                 Size: 1.12 MB | Integrity: OK
+[07] reujy_photography_15.jpg                 Size: 1.20 MB | Integrity: OK
+[08] reujy_photography_16.jpg                 Size: 5.98 MB | Integrity: OK
+[09] reujy_photography_17.jpg                 Size: 2.99 MB | Integrity: OK
+[10] reujy_photography_18.jpg                 Size: 14.02 MB | Integrity: OK
+[11] reujy_photography_19.jpg                 Size: 1.60 MB | Integrity: OK
+[12] reujy_photography_2.jpg                  Size: 6.49 MB | Integrity: OK
+[13] reujy_photography_20.jpg                 Size: 0.30 MB | Integrity: OK
+[14] reujy_photography_21.jpg                 Size: 0.35 MB | Integrity: OK
+[15] reujy_photography_22.jpg                 Size: 0.32 MB | Integrity: OK
+[16] reujy_photography_23.jpg                 Size: 5.17 MB | Integrity: OK
+[17] reujy_photography_24.jpg                 Size: 1.73 MB | Integrity: OK
+[18] reujy_photography_25.jpg                 Size: 1.29 MB | Integrity: OK
+[19] reujy_photography_26.jpg                 Size: 6.54 MB | Integrity: OK
+[20] reujy_photography_27.jpg                 Size: 17.21 MB | Integrity: OK
+[21] reujy_photography_28.jpg                 Size: 0.92 MB | Integrity: OK
+[22] reujy_photography_3.jpg                  Size: 8.39 MB | Integrity: OK
+[23] reujy_photography_4.jpg                  Size: 1.28 MB | Integrity: OK
+[24] reujy_photography_5.jpg                  Size: 0.84 MB | Integrity: OK
+[25] reujy_photography_6.jpg                  Size: 0.91 MB | Integrity: OK
+[26] reujy_photography_7.jpg                  Size: 7.95 MB | Integrity: OK
+[27] reujy_photography_8.jpg                  Size: 3.89 MB | Integrity: OK
+[28] reujy_photography_9.jpg                  Size: 0.38 MB | Integrity: OK
+
+----------------------------------------------------------
+ 2. VISUALIZING ASSET AUDIT DETAILS
+----------------------------------------------------------
+[00] reujy_visualizing_0____.jpg                                                      Size: 3.19 MB | Integrity: OK
+[01] reujy_visualizing_10_Untitled_종이에 수채와 색연필__2008.jpg                              Size: 6.50 MB | Integrity: OK
+[02] reujy_visualizing_11_a man_종이에 수채_16.6x25.5cm_2024.jpg                           Size: 6.20 MB | Integrity: OK
+[03] reujy_visualizing_12_a woman in move_종이에 먹과 파스텔_40x55cm_2025.jpg                 Size: 4.39 MB | Integrity: OK
+[04] reujy_visualizing_13____.jpg                                                     Size: 2.80 MB | Integrity: OK
+[05] reujy_visualizing_1____.jpg                                                      Size: 3.19 MB | Integrity: OK
+[06] reujy_visualizing_2_Feather__16x22_2018.jpg                                      Size: 3.55 MB | Integrity: OK
+[07] reujy_visualizing_3_Adventure_천에 아크릴_72x117cm_2024.jpg                           Size: 5.08 MB | Integrity: OK
+[08] reujy_visualizing_4___40x55cm_2024 (1).jpg                                       Size: 5.72 MB | Integrity: OK
+[09] reujy_visualizing_5___40x55cm_2024 (2).jpg                                       Size: 4.93 MB | Integrity: OK
+[10] reujy_visualizing_6___40x55cm_2025 (1).jpg                                       Size: 4.18 MB | Integrity: OK
+[11] reujy_visualizing_7___45x60cm_2024.jpg                                           Size: 4.29 MB | Integrity: OK
+[12] reujy_visualizing_8_Candle light_사진캔버스 위에 아크릴_40x57cm_2024.jpg                   Size: 3.76 MB | Integrity: OK
+[13] reujy_visualizing_9_Parfume_종이에 립스틱_40x55cm_2025.jpg                             Size: 5.38 MB | Integrity: OK
+
+==========================================================
+                  AUDIT SUMMARY STATISTICS
+==========================================================
+Total Processed Assets: 43
+Successfully Verified (OK): 43
+Failed / Corrupt Verified: 0
+Integrity Pass Rate: 100.00%
+==========================================================

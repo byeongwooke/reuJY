@@ -222,13 +222,14 @@
       position: fixed;
       top: 40px;
       left: 40px;
-      z-index: 15;
+      z-index: 25; /* Above archive grid overlay */
       font-family: 'Noto Sans KR', sans-serif;
       font-size: 18px;
       font-weight: 600;
       color: var(--army-green);
       letter-spacing: 1px;
       user-select: none;
+      cursor: pointer; /* Clickable home button */
     }
 
     /* Command 24 & 53: Hamburger Trigger (Fixed Top Right) */
@@ -236,7 +237,7 @@
       position: fixed;
       top: 40px;
       right: 40px;
-      z-index: 15;
+      z-index: 25; /* Above archive grid overlay */
       background: transparent;
       border: none;
       font-size: 24px;
@@ -547,6 +548,153 @@
     #main-section.visible #main-artist-name { animation-delay: 0.1s; }
 
     /* ══════════════════════════════════════════
+       ARCHIVE SECTION & THE KINETIC CASCADE
+       - Physics-backed elastic Easing Easing curve
+       - 0.08s Stagger delay applied in Javascript
+    ══════════════════════════════════════════ */
+    #archive-section {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--bone-white);
+      z-index: 20; /* Between main-section and nav-overlay */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      padding-top: 120px;
+      padding-bottom: 80px;
+    }
+
+    #archive-section.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #archive-grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @keyframes cascade-arrival {
+      0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .archive-item {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background-color: #EAEAEA;
+      box-shadow: 0 4px 24px rgba(72, 83, 32, 0.05);
+      border-radius: 2px;
+      opacity: 0;
+      cursor: pointer;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+    }
+
+    .archive-item.animate-arrival {
+      animation-name: cascade-arrival;
+      animation-duration: 0.8s;
+      animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+      animation-fill-mode: forwards;
+    }
+
+    .archive-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+      filter: grayscale(15%) brightness(0.95);
+    }
+
+    .archive-item:hover img {
+      transform: scale(1.04);
+      filter: grayscale(0%) brightness(1);
+    }
+
+    .archive-item:hover {
+      box-shadow: 0 16px 36px rgba(72, 83, 32, 0.16);
+      transform: translateY(-6px) scale(1.015);
+    }
+
+    /* ══════════════════════════════════════════
+       PREMIUM LIGHTBOX OVERLAY
+    ══════════════════════════════════════════ */
+    #lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(248, 248, 248, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 40px;
+    }
+
+    #lightbox-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 24px 64px rgba(72, 83, 32, 0.15);
+      transform: scale(0.95) translateY(20px);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #lightbox-overlay.open .lightbox-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 2px;
+    }
+
+    #lightbox-close {
+      position: absolute;
+      top: -30px;
+      right: 0;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      color: var(--army-green);
+      cursor: pointer;
+      line-height: 1;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    #lightbox-close:hover {
+      opacity: 0.6;
+      transform: scale(1.1);
+    }
+
+    /* ══════════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════════ */
     @media (max-width: 600px) {
@@ -559,6 +707,24 @@
       .vline            { display: none; }
       #art-object-frame { width: 90vw; }
       #exhibition-floating-card { bottom: 20px; right: 16px; }
+
+      #archive-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 15px;
+        padding: 20px;
+      }
+      #archive-section {
+        padding-top: 80px;
+        padding-bottom: 40px;
+      }
+      #lightbox-overlay {
+        padding: 16px;
+      }
+      #lightbox-close {
+        top: -36px;
+        right: 8px;
+        font-size: 20px;
+      }
     }
   </style>
 </head>
@@ -628,6 +794,25 @@
     <span class="exhibition-venue">beviamo espresso bar</span>
   </a>
 
+
+  <!-- ══════════════════════════════════════════
+       ARCHIVE SECTION (아카이브) — The Kinetic Cascade
+  ══════════════════════════════════════════ -->
+  <div id="archive-section" class="section-container" aria-hidden="true">
+    <div id="archive-grid-container" class="archive-grid">
+      <!-- .archive-item elements will be dynamically generated here -->
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       LIGHTBOX OVERLAY
+  ══════════════════════════════════════════ -->
+  <div id="lightbox-overlay" aria-hidden="true" role="dialog" aria-label="이미지 크게 보기">
+    <div class="lightbox-content">
+      <button id="lightbox-close" aria-label="닫기">✕</button>
+      <img src="" alt="" class="lightbox-img" id="lightbox-img" />
+    </div>
+  </div>
 
   <!-- ══════════════════════════════════════════
        NAVIGATION MENU OVERLAY
@@ -764,6 +949,148 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && navOverlay.classList.contains('open')) closeNav();
     });
+
+    /* ══════════════════════════════════════════
+       THE KINETIC CASCADE: ARCHIVE ENGINE & LIGHTBOX
+    ══════════════════════════════════════════ */
+    const ARCHIVE_IMAGES = [
+      // Photography Assets (0 to 28)
+      ...Array.from({ length: 29 }, (_, i) => `assets/photography/reujy_photography_${i}.jpg`),
+      
+      // Visualizing Assets (14 files)
+      'assets/visualizing/reujy_visualizing_0____.jpg',
+      'assets/visualizing/reujy_visualizing_1____.jpg',
+      'assets/visualizing/reujy_visualizing_2_Feather__16x22_2018.jpg',
+      'assets/visualizing/reujy_visualizing_3_Adventure_천에 아크릴_72x117cm_2024.jpg',
+      'assets/visualizing/reujy_visualizing_4___40x55cm_2024 (1).jpg',
+      'assets/visualizing/reujy_visualizing_5___40x55cm_2024 (2).jpg',
+      'assets/visualizing/reujy_visualizing_6___40x55cm_2025 (1).jpg',
+      'assets/visualizing/reujy_visualizing_7___45x60cm_2024.jpg',
+      'assets/visualizing/reujy_visualizing_8_Candle light_사진캔버스 위에 아크릴_40x57cm_2024.jpg',
+      'assets/visualizing/reujy_visualizing_9_Parfume_종이에 립스틱_40x55cm_2025.jpg',
+      'assets/visualizing/reujy_visualizing_10_Untitled_종이에 수채와 색연필__2008.jpg',
+      'assets/visualizing/reujy_visualizing_11_a man_종이에 수채_16.6x25.5cm_2024.jpg',
+      'assets/visualizing/reujy_visualizing_12_a woman in move_종이에 먹과 파스텔_40x55cm_2025.jpg',
+      'assets/visualizing/reujy_visualizing_13____.jpg'
+    ];
+
+    const archiveSection       = document.getElementById('archive-section');
+    const archiveGridContainer = document.getElementById('archive-grid-container');
+    const mainArtistName       = document.getElementById('main-artist-name');
+    const exhibitionCard       = document.getElementById('exhibition-floating-card');
+    
+    const lightboxOverlay      = document.getElementById('lightbox-overlay');
+    const lightboxImg          = document.getElementById('lightbox-img');
+    const lightboxClose        = document.getElementById('lightbox-close');
+
+    // Build the archive grid items once
+    function initArchiveGrid() {
+      archiveGridContainer.innerHTML = '';
+      ARCHIVE_IMAGES.forEach((src, index) => {
+        const item = document.createElement('div');
+        item.className = 'archive-item';
+        // Base delay: 0.1s, increment: 0.08s
+        item.style.animationDelay = `${0.1 + index * 0.08}s`;
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `류지영 작가 작품 — 아카이브 ${index + 1}`;
+        img.loading = 'lazy'; // Performant lazy loading
+
+        item.appendChild(img);
+
+        // Click handler to open lightbox
+        item.addEventListener('click', () => {
+          lightboxImg.src = src;
+          lightboxOverlay.classList.add('open');
+          lightboxOverlay.setAttribute('aria-hidden', 'false');
+        });
+
+        archiveGridContainer.appendChild(item);
+      });
+    }
+
+    // Trigger stagger entrance animation
+    function triggerArchiveCascade() {
+      const items = archiveGridContainer.querySelectorAll('.archive-item');
+      items.forEach(item => {
+        item.classList.remove('animate-arrival');
+        // Force reflow to restart animation
+        void item.offsetWidth;
+        item.classList.add('animate-arrival');
+      });
+    }
+
+    // Navigation function: Show Archive
+    function showArchiveView() {
+      // 1. Close nav overlay
+      closeNav();
+      
+      // 2. Transition main section and exhibition card out
+      mainSection.classList.remove('visible');
+      mainSection.setAttribute('aria-hidden', 'true');
+      exhibitionCard.classList.remove('revealed');
+      
+      // 3. Transition archive section in
+      archiveSection.classList.add('visible');
+      archiveSection.setAttribute('aria-hidden', 'false');
+      
+      // 4. Trigger Kinetic Cascade staggered entry
+      triggerArchiveCascade();
+    }
+
+    // Navigation function: Show Home (Main Splash)
+    function showHomeView() {
+      // 1. Transition archive section out
+      archiveSection.classList.remove('visible');
+      archiveSection.setAttribute('aria-hidden', 'true');
+      
+      // 2. Transition main section and exhibition card back in
+      mainSection.classList.add('visible');
+      mainSection.setAttribute('aria-hidden', 'false');
+      exhibitionCard.classList.add('revealed');
+    }
+
+    // Event listeners for Navigation Menu Links
+    document.querySelectorAll('.nav-item a[href="#archive"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showArchiveView();
+      });
+    });
+
+    // Make top-left logo act as a return-home trigger
+    mainArtistName.addEventListener('click', () => {
+      showHomeView();
+    });
+
+    // Lightbox triggers
+    function closeLightbox() {
+      lightboxOverlay.classList.remove('open');
+      lightboxOverlay.setAttribute('aria-hidden', 'true');
+      setTimeout(() => { lightboxImg.src = ''; }, 300); // clear src after transition
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxOverlay.addEventListener('click', (e) => {
+      if (e.target === lightboxOverlay) {
+        closeLightbox();
+      }
+    });
+
+    // ESC key close support
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (lightboxOverlay.classList.contains('open')) {
+          closeLightbox();
+        } else if (navOverlay.classList.contains('open')) {
+          closeNav();
+        }
+      }
+    });
+
+    // Initialize grid elements on script load
+    initArchiveGrid();
   </script>
 </body>
 </html>
