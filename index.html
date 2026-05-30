@@ -14,8 +14,8 @@
        DESIGN TOKENS & VARIABLES
     ══════════════════════════════════════════ */
     :root {
-      --bone-white:  #F8F8F8;
-      --gate-white:  #F9F9F9;
+      --bone-white:  #F5F5F3;
+      --gate-white:  #F5F5F3;
       --army-green:  #485320;
       --army-light:  rgba(72, 83, 32, 0.45);
       --army-faint:  rgba(72, 83, 32, 0.12);
@@ -80,83 +80,24 @@
       align-items: center;
     }
 
-    /* ── Gate: Instagram Handle (Command 03) ── */
+    /* ── Gate: Minimalist Loading ── */
     #instagram-handle {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 64px;
-      font-weight: 800;
-      color: var(--ink);
-      letter-spacing: -1px;
-      line-height: 1;
-      text-align: center;
-      user-select: none;
-      opacity: 0;
-      transform: translateY(8px);
-      animation: fadeUp 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
-    }
-
-    /* ── Gate: Artist Name (Command 04) ── */
-    #artist-name {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 14px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
       font-weight: 300;
       color: var(--mid);
-      letter-spacing: 2px;
-      margin-top: 16px;
+      letter-spacing: 4px;
       text-align: center;
       user-select: none;
       opacity: 0;
-      animation: fadeUp 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
+      animation: gateFadeInOut 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    /* ── Gate: Decorative line ── */
-    .gate-divider {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, transparent, #CCCCCC);
-      margin-top: 64px;
-      opacity: 0;
-      animation: fadeUp 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
-    }
-
-    /* ── Gate: Enter Museum (Command 05) ── */
-    #enter-museum {
-      margin-top: 16px;
-      background: transparent;
-      border: none;
-      font-family: 'EB Garamond', serif;
-      font-size: 13px;
-      font-style: italic;
-      color: var(--ink);
-      cursor: pointer;
-      padding: 4px 0;
-      letter-spacing: 0.5px;
-      position: relative;
-      opacity: 0;
-      animation:
-        fadeUp 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards,
-        blinkPulse 2s ease-in-out 2s infinite;
-    }
-
-    #enter-museum::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 50%;
-      width: 0;
-      height: 1px;
-      background: var(--ink);
-      transition: width 0.4s ease, left 0.4s ease;
-    }
-
-    #enter-museum:hover::after {
-      width: 100%;
-      left: 0;
-    }
-
-    #enter-museum:hover {
-      opacity: 1 !important;
-      animation-play-state: paused;
+    @keyframes gateFadeInOut {
+      0% { opacity: 0; transform: translateY(4px); }
+      30% { opacity: 1; transform: translateY(0); }
+      80% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-4px); }
     }
 
     /* ══════════════════════════════════════════
@@ -232,24 +173,26 @@
       cursor: pointer; /* Clickable home button */
     }
 
-    /* Command 24 & 53: Hamburger Trigger (Fixed Top Right) */
-    #hamburger-trigger {
+    /* Floating Header Nav */
+    #top-text-nav {
       position: fixed;
       top: 40px;
       right: 40px;
       z-index: 25; /* Above archive grid overlay */
-      background: transparent;
-      border: none;
-      font-size: 24px;
-      color: var(--army-green);
-      cursor: pointer;
-      padding: 4px 6px;
-      line-height: 1;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      display: flex;
+      gap: 32px;
     }
-    #hamburger-trigger:hover {
-      opacity: 0.6;
-      transform: scale(1.1);
+    #top-text-nav a {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      color: var(--army-green);
+      text-decoration: none;
+      letter-spacing: 2px;
+      transition: opacity 0.3s ease;
+      text-transform: uppercase;
+    }
+    #top-text-nav a:hover {
+      opacity: 0.5;
     }
 
     /* Command 35 & 45 & 53: Exhibition Floating Card (Fixed Bottom Right) */
@@ -615,11 +558,11 @@
     #archive-grid-container, #photography-grid {
       display: grid;
       /* Density-First Grid: Auto-filling fluid columns */
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      grid-auto-rows: 10px; /* Highly detailed 10px rows for precise vertical alignment */
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-auto-rows: 20px; /* Highly detailed 20px rows for precise vertical alignment */
       grid-auto-flow: dense;
-      gap: 20px; /* 20px space */
-      padding: 40px;
+      gap: 40px; /* Deep breath between artworks */
+      padding: 60px 40px;
       max-width: 1400px;
       margin: 0 auto;
     }
@@ -638,12 +581,12 @@
     .archive-item {
       position: relative;
       overflow: hidden;
-      background-color: #EAEAEA;
-      box-shadow: 0 4px 24px rgba(72, 83, 32, 0.05);
-      border-radius: 2px;
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
       opacity: 0;
       cursor: pointer;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+      transition: opacity 0.6s ease;
     }
 
     .archive-item.animate-arrival {
@@ -658,18 +601,36 @@
       height: auto;
       object-fit: contain; /* 고유 비율 보존 (Masonry) */
       display: block;
-      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+      transition: filter 0.8s ease;
       filter: grayscale(15%) brightness(0.95);
     }
 
     .archive-item:hover .archive-item-image {
-      transform: scale(1.04);
       filter: grayscale(0%) brightness(1);
     }
 
-    .archive-item:hover {
-      box-shadow: 0 16px 36px rgba(72, 83, 32, 0.16);
-      transform: translateY(-6px) scale(1.015);
+    /* Museum Caption on Hover */
+    .archive-item-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: linear-gradient(to top, rgba(245, 245, 243, 0.95), transparent);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 11px;
+      color: var(--mid);
+      text-align: center;
+      letter-spacing: 1px;
+      pointer-events: none;
+    }
+    
+    .archive-item:hover .archive-item-caption {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* ══════════════════════════════════════════
@@ -774,18 +735,11 @@
 <body>
 
   <!-- ══════════════════════════════════════════
-       GATE (대문) — Commands 01–06
+       GATE (대문) — Minimalist Loading
   ══════════════════════════════════════════ -->
   <div id="gate-background">
     <div class="gate-content">
-      <!-- Command 03 -->
       <h1 id="instagram-handle">@reu_JY</h1>
-      <!-- Command 04 -->
-      <p id="artist-name">작가 류지영</p>
-      <!-- Decorative vertical rule -->
-      <div class="gate-divider"></div>
-      <!-- Command 05 -->
-      <button id="enter-museum" aria-label="메인 페이지로 입장">[ Enter Museum ]</button>
     </div>
   </div>
 
@@ -799,12 +753,14 @@
     <div class="vline vline-left"  aria-hidden="true"></div>
     <div class="vline vline-right" aria-hidden="true"></div>
 
-    <!-- ── FIXED OVERLAYS (Command 23 & 24 & 53) ── -->
+    <!-- ── FIXED OVERLAYS ── -->
     <span id="main-artist-name" class="main-entrance">REU JY | 류지영</span>
 
-    <button id="hamburger-trigger" class="main-entrance" aria-label="네비게이션 메뉴 열기" aria-controls="nav-overlay" aria-expanded="false">
-      ☰
-    </button>
+    <nav id="top-text-nav" class="main-entrance" aria-label="메인 네비게이션">
+      <a href="#archive">Archive</a>
+      <a href="#process">Process</a>
+      <a href="#notes">Notes</a>
+    </nav>
 
     <!-- ── CENTER: Framed Art Object + Absolute Overlay (Command 42, 51, 54) ── -->
     <section id="philosophy-area" aria-label="표상의 여백">
@@ -863,38 +819,7 @@
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       NAVIGATION MENU OVERLAY
-  ══════════════════════════════════════════ -->
-  <nav id="nav-overlay" aria-hidden="true" aria-label="사이트 내비게이션">
-    <div id="nav-backdrop"></div>
-
-    <div id="nav-panel" role="dialog" aria-modal="true" aria-label="메뉴">
-      <button id="nav-close" aria-label="메뉴 닫기">✕</button>
-
-      <ul class="nav-items">
-        <li class="nav-item">
-          <a href="#archive">
-            <span class="nav-num">01</span>Archive
-          </a>
-        </li>
-        <div class="nav-sep"></div>
-        <li class="nav-item">
-          <a href="#content">
-            <span class="nav-num">02</span>Contents
-          </a>
-        </li>
-        <div class="nav-sep"></div>
-        <li class="nav-item">
-          <a href="#process">
-            <span class="nav-num">03</span>Process
-          </a>
-        </li>
-      </ul>
-
-      <p class="nav-footer-note">표상의 여백 — @reu_JY</p>
-    </div>
-  </nav>
+  <!-- Navigation Overlay Removed for Museum-Grade Layout -->
 
 
   <script>
@@ -953,13 +878,13 @@
     }
 
     /* ══════════════════════════════════════════
-       GATE → MAIN TRANSITION (Command 06)
+       GATE → MAIN TRANSITION (Minimalist)
     ══════════════════════════════════════════ */
     const gate        = document.getElementById('gate-background');
-    const enterBtn    = document.getElementById('enter-museum');
     const mainSection = document.getElementById('main-section');
 
-    enterBtn.addEventListener('click', () => {
+    // Automatically transition after the fade-in-out animation (2.5s)
+    setTimeout(() => {
       gate.classList.add('fade-out');
       setTimeout(() => {
         mainSection.setAttribute('aria-hidden', 'false');
@@ -967,37 +892,7 @@
         /* Start mosaic 200ms after main section transition */
         setTimeout(startMosaicReveal, 200);
       }, 800);
-    });
-
-    /* ══════════════════════════════════════════
-       HAMBURGER / NAV OVERLAY (Command 24)
-    ══════════════════════════════════════════ */
-    const hamburger   = document.getElementById('hamburger-trigger');
-    const navOverlay  = document.getElementById('nav-overlay');
-    const navClose    = document.getElementById('nav-close');
-    const navBackdrop = document.getElementById('nav-backdrop');
-
-    function openNav() {
-      navOverlay.classList.add('open');
-      navOverlay.setAttribute('aria-hidden', 'false');
-      hamburger.setAttribute('aria-expanded', 'true');
-      navClose.focus();
-    }
-
-    function closeNav() {
-      navOverlay.classList.remove('open');
-      navOverlay.setAttribute('aria-hidden', 'true');
-      hamburger.setAttribute('aria-expanded', 'false');
-      hamburger.focus();
-    }
-
-    hamburger.addEventListener('click', openNav);
-    navClose.addEventListener('click', closeNav);
-    navBackdrop.addEventListener('click', closeNav);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && navOverlay.classList.contains('open')) closeNav();
-    });
+    }, 2500);
 
     /* ══════════════════════════════════════════
        THE KINETIC CASCADE: ARCHIVE ENGINE & LIGHTBOX
@@ -1111,7 +1006,12 @@
         img.alt = `${tab === 'photography' ? '사진' : '시각예술'} 작품 — ${index + 1}`;
         img.loading = 'lazy';
 
+        const caption = document.createElement('div');
+        caption.className = 'archive-item-caption';
+        caption.innerText = `Artwork ${String(index + 1).padStart(2, '0')} / Mixed Media`;
+
         item.appendChild(img);
+        item.appendChild(caption);
 
         // Click to open lightbox
         item.addEventListener('click', () => {
@@ -1145,22 +1045,19 @@
 
     // Navigation function: Show Archive
     function showArchiveView() {
-      // 1. Close nav overlay
-      closeNav();
-      
-      // 2. Transition main section out
+      // Transition main section out
       mainSection.classList.remove('visible');
       mainSection.setAttribute('aria-hidden', 'true');
       exhibitionCard.classList.remove('revealed');
       
-      // 3. Transition archive section in
+      // Transition archive section in
       archiveSection.classList.add('visible');
       archiveSection.setAttribute('aria-hidden', 'false');
       
-      // 4. Default to photography tab
+      // Default to photography tab
       renderArchiveTab('photography');
       
-      // 5. Ensure masonry sizes recalculate
+      // Ensure masonry sizes recalculate
       setTimeout(resizeAllGridItems, 100);
     }
 
@@ -1175,7 +1072,7 @@
     }
 
     // Event listeners for Navigation Menu Links
-    document.querySelectorAll('.nav-item a[href="#archive"]').forEach(link => {
+    document.querySelectorAll('#top-text-nav a[href="#archive"]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         showArchiveView();
@@ -1204,8 +1101,6 @@
       if (e.key === 'Escape') {
         if (lightboxOverlay.classList.contains('open')) {
           closeLightbox();
-        } else if (navOverlay.classList.contains('open')) {
-          closeNav();
         }
       }
     });
