@@ -1,0 +1,243 @@
+/* ══════════════════════════════════════════
+   PROCESS VIEW PORT
+   ══════════════════════════════════════════ */
+#process-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #FDFBF7; /* warm creamy white background */
+  padding-top: 140px;
+  padding-bottom: 100px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.loaded #process-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#artist-profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ── Artist Profile Header ── */
+.profile-header {
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.profile-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--army-green);
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.profile-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: var(--mid);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+/* ── Editorial Bio & Statement Layout ── */
+.bio-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-bottom: 100px;
+  align-items: start;
+}
+
+.bio-statement {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.bio-lang-group {
+  border-left: 2px solid var(--army-light);
+  padding-left: 24px;
+}
+
+.bio-lang-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--army-green);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.bio-paragraph {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: #444444;
+  text-align: justify;
+}
+
+/* ── Studio Process Grid (Refined Grid Space) ── */
+.studio-process-section {
+  margin-bottom: 120px;
+}
+
+.section-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--army-green);
+  border-bottom: 1px solid var(--army-light);
+  padding-bottom: 12px;
+  margin-bottom: 40px;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.process-grid-item {
+  position: relative;
+  overflow: hidden;
+  background-color: #EFEBE4;
+  aspect-ratio: 4/5;
+  cursor: pointer;
+}
+
+.process-grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(30%) contrast(0.95) brightness(0.95);
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s ease;
+}
+
+.process-grid-item:hover img {
+  transform: scale(1.05);
+  filter: grayscale(0%) contrast(1) brightness(1);
+}
+
+.process-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(72, 83, 32, 0.15);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+}
+
+.process-grid-item:hover .process-item-overlay {
+  opacity: 1;
+}
+
+.process-item-desc {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 12px;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Exhibitions History Grid ── */
+.manifesto-exhibitions {
+  border-top: 1px solid rgba(72, 83, 32, 0.1);
+  padding-top: 80px;
+}
+
+.exhibitions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+}
+
+.exhibitions-section h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--army-green);
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--army-light);
+  padding-bottom: 10px;
+}
+
+.exhibitions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.exhibition-row {
+  display: flex;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.exhibition-year {
+  width: 70px;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--mid);
+}
+
+.exhibition-detail {
+  flex: 1;
+}
+
+.exhibition-name {
+  font-weight: 500;
+  color: #222222;
+}
+
+.exhibition-meta {
+  font-size: 12px;
+  color: var(--mid);
+  margin-top: 4px;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .bio-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .process-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .exhibitions-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+}
+
+@media (max-width: 600px) {
+  #process-wrapper {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+  .profile-title {
+    font-size: 24px;
+  }
+  .bio-paragraph {
+    font-size: 14px;
+  }
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+}

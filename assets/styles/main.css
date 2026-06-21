@@ -1,0 +1,261 @@
+/* ══════════════════════════════════════════
+   DESIGN TOKENS & VARIABLES
+   ══════════════════════════════════════════ */
+:root {
+  --bone-white:  #F5F5F3;
+  --gate-white:  #F5F5F3;
+  --army-green:  #485320;
+  --army-light:  rgba(72, 83, 32, 0.45);
+  --army-faint:  rgba(72, 83, 32, 0.12);
+  --ink:         #111111;
+  --mid:         #666666;
+  --accent-magenta: #8B004B;
+}
+
+/* ══════════════════════════════════════════
+   RESET & BASE STRUCTURE
+   ══════════════════════════════════════════ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bone-white);
+  -webkit-font-smoothing: antialiased;
+  color: var(--ink);
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* Scrollbar styling for premium look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bone-white);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--army-light);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--army-green);
+}
+
+/* ══════════════════════════════════════════
+   BALANCED GLOBAL OVERLAYS
+   ══════════════════════════════════════════ */
+
+/* Main Artist Logo (Top Left) */
+#main-artist-name {
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  z-index: 25;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--army-green);
+  letter-spacing: 1px;
+  user-select: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+/* Floating Navigation Header (Top Right) */
+#top-text-nav {
+  position: fixed;
+  top: 40px;
+  right: 40px;
+  z-index: 25;
+  display: flex;
+  gap: 32px;
+}
+#top-text-nav a {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 13px;
+  color: var(--army-green);
+  text-decoration: none;
+  letter-spacing: 2px;
+  transition: opacity 0.3s ease, border-bottom 0.3s ease;
+  text-transform: uppercase;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+#top-text-nav a:hover {
+  opacity: 0.5;
+}
+#top-text-nav a.active {
+  border-bottom: 1px solid var(--army-green);
+  font-weight: 600;
+}
+
+/* Exhibition Floating Card (Fixed Bottom Right) */
+#exhibition-floating-card {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 15;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  text-decoration: none;
+  text-align: right;
+}
+
+#exhibition-floating-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#exhibition-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(10px, 1.2vw, 13px);
+  font-weight: 500;
+  color: var(--army-green);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(72, 83, 32, 0.4);
+  transition: opacity 0.25s;
+}
+
+#exhibition-floating-card .exhibition-venue {
+  display: block;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  color: rgba(72, 83, 32, 0.5);
+  letter-spacing: 1.5px;
+  margin-top: 6px;
+}
+
+#exhibition-floating-card:hover #exhibition-text {
+  opacity: 0.6;
+}
+
+/* ══════════════════════════════════════════
+   PREMIUM LIGHTBOX OVERLAY
+   ══════════════════════════════════════════ */
+#lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(248, 248, 248, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 40px;
+}
+
+#lightbox-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 24px 64px rgba(72, 83, 32, 0.15);
+  transform: scale(0.95) translateY(20px);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#lightbox-overlay.open .lightbox-content {
+  transform: scale(1) translateY(0);
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+#lightbox-close {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: var(--army-green);
+  cursor: pointer;
+  line-height: 1;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+#lightbox-close:hover {
+  opacity: 0.6;
+  transform: scale(1.1);
+}
+
+/* ══════════════════════════════════════════
+   GLOBAL ANIMATIONS & TRANSITIONS
+   ══════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blinkPulse {
+  0%, 100% { opacity: 1.0; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes mainFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.main-entrance { opacity: 0; }
+
+body.loaded .main-entrance {
+  animation: mainFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+body.loaded #main-artist-name { animation-delay: 0.1s; }
+
+/* Responsive adjustments for overlays */
+@media (max-width: 768px) {
+  #main-artist-name {
+    font-size: 14px;
+    top: 24px;
+    left: 24px;
+  }
+  #top-text-nav {
+    top: 24px;
+    right: 24px;
+    gap: 16px;
+  }
+  #top-text-nav a {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+  #exhibition-floating-card {
+    bottom: 20px;
+    right: 20px;
+  }
+  #lightbox-overlay {
+    padding: 16px;
+  }
+  #lightbox-close {
+    top: -36px;
+    right: 8px;
+    font-size: 20px;
+  }
+}

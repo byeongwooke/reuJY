@@ -1,0 +1,190 @@
+/* ══════════════════════════════════════════
+   NOTES VIEW PORT
+   ══════════════════════════════════════════ */
+#notes-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bone-white);
+  padding-top: 140px;
+  padding-bottom: 120px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.loaded #notes-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#notes-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ── Notes Page Header ── */
+.notes-header {
+  text-align: center;
+  margin-bottom: 90px;
+}
+
+.notes-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--army-green);
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+
+.notes-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: var(--mid);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+/* ── Essay Chapter Structures ── */
+.essay-chapter {
+  margin-bottom: 120px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.essay-chapter.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter-number {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--accent-magenta);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.chapter-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--army-green);
+  letter-spacing: 1px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid rgba(72, 83, 32, 0.1);
+  padding-bottom: 16px;
+}
+
+/* Bilingual Side-by-Side Essay Columns */
+.essay-content-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.essay-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.essay-column.kr {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 14.5px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: #333333;
+  text-align: justify;
+  letter-spacing: -0.01em;
+}
+
+.essay-column.en {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #555555;
+  text-align: justify;
+  letter-spacing: 0.02em;
+}
+
+/* Drop Caps for premium editorial look */
+.essay-column.kr p:first-of-type::first-letter {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 2.8em;
+  float: left;
+  line-height: 0.9;
+  padding-right: 8px;
+  color: var(--army-green);
+  font-weight: 600;
+}
+
+.essay-column.en p:first-of-type::first-letter {
+  font-family: 'EB Garamond', serif;
+  font-size: 3em;
+  float: left;
+  line-height: 0.85;
+  padding-right: 8px;
+  color: var(--army-green);
+}
+
+/* Pull Quotes */
+.essay-pull-quote {
+  grid-column: 1 / -1;
+  margin: 36px 0;
+  padding: 30px 40px;
+  border-top: 1px solid var(--army-light);
+  border-bottom: 1px solid var(--army-light);
+  background-color: rgba(72, 83, 32, 0.02);
+  text-align: center;
+}
+
+.quote-text {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--army-green);
+  margin-bottom: 12px;
+}
+
+.quote-author {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #notes-wrapper {
+    padding-top: 100px;
+    padding-bottom: 80px;
+  }
+  .notes-header {
+    margin-bottom: 50px;
+  }
+  .notes-title {
+    font-size: 26px;
+  }
+  .essay-content-columns {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .essay-pull-quote {
+    padding: 20px;
+    margin: 20px 0;
+  }
+  .quote-text {
+    font-size: 15px;
+  }
+}

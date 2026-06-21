@@ -1,0 +1,165 @@
+/* ══════════════════════════════════════════
+   ARCHIVE VIEW PORT
+   ══════════════════════════════════════════ */
+#archive-section {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bone-white);
+  padding-top: 140px;
+  padding-bottom: 80px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.loaded #archive-section {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Tab Container & Buttons ── */
+#archive-tab-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(72, 83, 32, 0.15);
+  padding: 20px 0;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.archive-tab-button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--army-green);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s, color 0.3s, border-bottom 0.3s;
+  padding-bottom: 8px;
+  border-bottom: 2px solid transparent;
+  opacity: 0.7;
+}
+
+.archive-tab-button:hover {
+  opacity: 1;
+}
+
+.archive-tab-button.active {
+  color: var(--accent-magenta);
+  border-bottom: 2px solid var(--accent-magenta);
+  opacity: 1;
+  font-weight: 600;
+}
+
+/* ── Masonry Grid Layout ── */
+#archive-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-auto-rows: 15px; /* detailed row grids */
+  grid-auto-flow: dense;
+  gap: 30px 40px; /* spacing */
+  padding: 20px 40px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@keyframes cascade-arrival {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.archive-item {
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.archive-item.animate-arrival {
+  animation-name: cascade-arrival;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: forwards;
+}
+
+.archive-item-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transition: filter 0.8s ease, transform 0.8s ease;
+  filter: grayscale(20%) brightness(0.95);
+}
+
+.archive-item:hover .archive-item-image {
+  filter: grayscale(0%) brightness(1);
+  transform: scale(1.02);
+}
+
+/* Museum Caption on Hover */
+.archive-item-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 16px 16px;
+  background: linear-gradient(to top, rgba(245, 245, 243, 0.98), transparent);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 11px;
+  color: var(--mid);
+  text-align: center;
+  letter-spacing: 1px;
+  pointer-events: none;
+  border-top: 1px solid rgba(72, 83, 32, 0.05);
+}
+
+.archive-item:hover .archive-item-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #archive-section {
+    padding-top: 100px;
+    padding-bottom: 40px;
+  }
+  #archive-tab-container {
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .archive-tab-button {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+  }
+  #archive-grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 10px 20px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  #archive-grid-container {
+    grid-template-columns: 1fr !important;
+  }
+}
