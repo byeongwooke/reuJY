@@ -699,6 +699,242 @@
     }
 
     /* ══════════════════════════════════════════
+       PROCESS SECTION (#main-container)
+    ══════════════════════════════════════════ */
+    #main-container {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #FDFBF7; /* 따뜻한 화이트(Creamy White) 배경 */
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #main-container.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #dual-banner-section {
+      height: 60vh;
+      display: flex;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .banner-half {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .banner-half:active {
+      cursor: grabbing;
+    }
+
+    .banner-slides {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .banner-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+      filter: grayscale(15%) brightness(0.95);
+      pointer-events: none;
+      transform: scale(1.0);
+    }
+
+    .banner-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    @keyframes kenBurnsZoom {
+      from {
+        transform: scale(1.0);
+      }
+      to {
+        transform: scale(1.05);
+      }
+    }
+
+    .banner-slide.ken-burns {
+      animation: kenBurnsZoom 10s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .banner-half::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.4));
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .banner-label {
+      position: absolute;
+      bottom: 30px;
+      left: 40px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      color: #F8F8F8;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      z-index: 4;
+    }
+
+    #artist-manifesto {
+      padding: 120px 20% 120px 10%; /* 왼쪽 시작, 1/3 지점 배치 */
+      font-family: 'Noto Serif KR', serif;
+      line-height: 1.8;
+      color: #333333;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+      letter-spacing: -0.015em;
+    }
+
+    .manifesto-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .manifesto-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--army-green);
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .manifesto-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      color: var(--mid);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .manifesto-body {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .manifesto-paragraph {
+      font-size: 16px;
+      font-weight: 300;
+      text-align: justify;
+      color: #444444;
+    }
+
+    .manifesto-lang-group {
+      border-left: 2px solid var(--army-light);
+      padding-left: 24px;
+      margin-bottom: 20px;
+    }
+
+    .manifesto-lang-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--army-green);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    /* Exhibition History Styling */
+    .manifesto-exhibitions {
+      margin-top: 40px;
+      border-top: 1px solid var(--army-faint);
+      padding-top: 60px;
+    }
+
+    .exhibitions-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--army-green);
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    .exhibitions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .exhibitions-section h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--army-green);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--army-light);
+      padding-bottom: 8px;
+    }
+
+    .exhibitions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .exhibition-row {
+      display: flex;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .exhibition-year {
+      width: 60px;
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    .exhibition-detail {
+      flex: 1;
+    }
+
+    .exhibition-name {
+      font-weight: 400;
+      color: #222;
+    }
+
+    .exhibition-meta {
+      font-size: 12px;
+      color: var(--mid);
+      margin-top: 2px;
+    }
+
+    /* ══════════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════════ */
     @media (max-width: 600px) {
@@ -728,6 +964,24 @@
         top: -36px;
         right: 8px;
         font-size: 20px;
+      }
+
+      /* Process responsive layout styles */
+      #dual-banner-section {
+        flex-direction: column;
+        height: auto;
+      }
+      .banner-half {
+        height: 30vh;
+        width: 100%;
+      }
+      #artist-manifesto {
+        padding: 60px 8%;
+        gap: 40px;
+      }
+      .exhibitions-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
       }
     }
   </style>
@@ -810,6 +1064,188 @@
   </div>
 
   <!-- ══════════════════════════════════════════
+       PROCESS SECTION (프로세스 및 프로필) — #main-container
+  ══════════════════════════════════════════ -->
+  <div id="main-container" aria-hidden="true">
+    <!-- Dual Banner Section displaying artist works with hover effects -->
+    <div id="dual-banner-section">
+      <div class="banner-half" id="banner-left">
+        <div class="banner-slides"></div>
+        <span class="banner-label">Photography</span>
+      </div>
+      <div class="banner-half" id="banner-right">
+        <div class="banner-slides"></div>
+        <span class="banner-label">Visual Art</span>
+      </div>
+    </div>
+
+    <!-- Artist Manifesto and Biography Statement -->
+    <article id="artist-manifesto">
+      <header class="manifesto-header">
+        <h2 class="manifesto-title">표상의 여백</h2>
+        <p class="manifesto-subtitle">The Infinite Representation</p>
+      </header>
+
+      <div class="manifesto-body">
+        <div class="manifesto-lang-group">
+          <div class="manifesto-lang-label">Korean</div>
+          <p class="manifesto-paragraph">
+            1991년생인 류지영은 한국을 기반으로 활동하는 시각예술가이다. 독일 브라운슈바이크 미술대학(HBK Braunschweig)에서 교환학생으로 사진을 공부했으며, 프랑스 님 고등미술학교(Ésban)에서 조형예술 및 사진 전공으로 석사 학위를 받았다. 2016년부터 서울에서 공동체 기반의 공공미술 프로젝트에 참여해 왔으며, 2024년부터는 사진과 타 매체를 통합하는 작업을 선보이고 있다. 그녀의 작업 세계는 질감, 잔상, 그리고 지각과 인지 사이의 틈새를 탐구한다.
+          </p>
+        </div>
+
+        <div class="manifesto-lang-group">
+          <div class="manifesto-lang-label">English</div>
+          <p class="manifesto-paragraph">
+            Born in 1991, she is a visual artist based in Korea. She studied photography during an exchange semester at the Hochschule für Bildende Künste Braunschweig in Germany, and later earned a master’s degree in both plastic arts and photography at the École Supérieure des Beaux-Arts de Nîmes in France. Since 2016, she has participated in community-based public art projects in Seoul, and since 2024, she has been creating works that integrate photography with other media. Her practice explores texture, afterimages, and the spaces between perception and cognition.
+          </p>
+        </div>
+      </div>
+
+      <!-- Exhibitions History Section -->
+      <section class="manifesto-exhibitions" id="exhibitions-section">
+        <h3 class="exhibitions-title">Exhibitions</h3>
+        <div class="exhibitions-grid">
+          
+          <!-- Solo Exhibitions -->
+          <div class="exhibitions-section">
+            <h4>Solo Exhibitions</h4>
+            <div class="exhibitions-list">
+              <div class="exhibition-row">
+                <span class="exhibition-year">2025</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Ghost in Deja Vu</div>
+                  <div class="exhibition-meta">DeMA Gallery, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2023</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">OS quiz</div>
+                  <div class="exhibition-meta">Binkan Euljiro, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2023</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Vio Frame</div>
+                  <div class="exhibition-meta">Youilbam Studio, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2021</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Naegative</div>
+                  <div class="exhibition-meta">Beomeo Art Street, Daegu</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2019</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Reportage: Modele</div>
+                  <div class="exhibition-meta">SpaceBa, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2015</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Frame and Aperture</div>
+                  <div class="exhibition-meta">Heyri Art Village, Paju</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Group Exhibitions -->
+          <div class="exhibitions-section">
+            <h4>Group Exhibitions</h4>
+            <div class="exhibitions-list">
+              <div class="exhibition-row">
+                <span class="exhibition-year">2026</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Weaving</div>
+                  <div class="exhibition-meta">Mirine gallery, Osaka Korean Culture Center, Japan</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2025</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Market AP : Collector's Salon</div>
+                  <div class="exhibition-meta">Hyundai department store, Cheonho, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2024</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Image-Nation</div>
+                  <div class="exhibition-meta">Collective Riz-rond, Etu'art, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2023</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Decalage Horaire</div>
+                  <div class="exhibition-meta">Collective Riz-rond, Etu'art, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2022</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Boundary Point</div>
+                  <div class="exhibition-meta">Diaf Young Artist Project, EXCO, Daegu</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2022</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Overlapped Layers</div>
+                  <div class="exhibition-meta">Empty house project, Rice mill Geumsu, Daegu</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2021</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Unconsciousness v Consciousness</div>
+                  <div class="exhibition-meta">Gallery Western, Los Angeles, USA</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2020</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">When the Sun and Moon Shine Brightly</div>
+                  <div class="exhibition-meta">Daelim Changgo Gallery, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2019</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Hello or Bye</div>
+                  <div class="exhibition-meta">SpaceBa, B-galleria, Turku, Finland</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2016</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Sewoon Clock</div>
+                  <div class="exhibition-meta">SpaceBa, Seoul</div>
+                </div>
+              </div>
+              <div class="exhibition-row">
+                <span class="exhibition-year">2016</span>
+                <div class="exhibition-detail">
+                  <div class="exhibition-name">Les jours d'après</div>
+                  <div class="exhibition-meta">ESBAN Gallery, Nîmes, France</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </article>
+  </div>
+
+  <!-- ══════════════════════════════════════════
        LIGHTBOX OVERLAY
   ══════════════════════════════════════════ -->
   <div id="lightbox-overlay" aria-hidden="true" role="dialog" aria-label="이미지 크게 보기">
@@ -823,6 +1259,160 @@
 
 
   <script>
+    /* ══════════════════════════════════════════
+       DUAL HORIZON ROLLING BANNER ENGINE
+    ══════════════════════════════════════════ */
+    class RollingBanner {
+      constructor(containerId, images, intervalTime = 7000) {
+        this.container = document.querySelector(`#${containerId} .banner-slides`);
+        this.images = images;
+        this.currentIndex = 0;
+        this.intervalTime = intervalTime;
+        this.timer = null;
+        this.isTransitioning = false;
+        
+        // Drag/swipe state
+        this.startX = 0;
+        this.currentX = 0;
+        this.isDragging = false;
+        this.dragThreshold = 80;
+        
+        this.init();
+      }
+      
+      init() {
+        if (!this.images || this.images.length === 0) return;
+        
+        this.currentSlide = this.createSlideElement(this.images[this.currentIndex]);
+        this.currentSlide.classList.add('active', 'ken-burns');
+        this.container.appendChild(this.currentSlide);
+        
+        this.startAutoPlay();
+        this.bindEvents();
+      }
+      
+      createSlideElement(src) {
+        const slide = document.createElement('div');
+        slide.className = 'banner-slide';
+        slide.style.backgroundImage = `url('${src}')`;
+        return slide;
+      }
+      
+      startAutoPlay() {
+        this.stopAutoPlay();
+        this.timer = setInterval(() => {
+          this.next();
+        }, this.intervalTime);
+      }
+      
+      stopAutoPlay() {
+        if (this.timer) {
+          clearInterval(this.timer);
+          this.timer = null;
+        }
+      }
+      
+      pause() {
+        this.stopAutoPlay();
+      }
+      
+      resume() {
+        this.startAutoPlay();
+      }
+      
+      next() {
+        const nextIndex = (this.currentIndex + 1) % this.images.length;
+        this.transitionTo(nextIndex);
+      }
+      
+      prev() {
+        const prevIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+        this.transitionTo(prevIndex);
+      }
+      
+      transitionTo(index) {
+        if (index === this.currentIndex) return;
+        if (this.isTransitioning) return;
+        
+        this.isTransitioning = true;
+        const oldSlide = this.currentSlide;
+        const newSlide = this.createSlideElement(this.images[index]);
+        
+        this.container.appendChild(newSlide);
+        
+        // Force reflow
+        void newSlide.offsetWidth;
+        
+        newSlide.classList.add('active', 'ken-burns');
+        
+        this.currentIndex = index;
+        this.currentSlide = newSlide;
+        
+        setTimeout(() => {
+          if (oldSlide && oldSlide.parentNode === this.container) {
+            this.container.removeChild(oldSlide);
+          }
+          this.isTransitioning = false;
+        }, 1500);
+      }
+      
+      bindEvents() {
+        const bannerHalf = this.container.closest('.banner-half');
+        if (!bannerHalf) return;
+        
+        // Mouse events
+        bannerHalf.addEventListener('mousedown', (e) => this.dragStart(e.clientX));
+        window.addEventListener('mousemove', (e) => this.dragMove(e.clientX));
+        window.addEventListener('mouseup', () => this.dragEnd());
+        
+        // Touch events
+        bannerHalf.addEventListener('touchstart', (e) => {
+          if (e.touches.length === 1) {
+            this.dragStart(e.touches[0].clientX);
+          }
+        }, { passive: true });
+        
+        bannerHalf.addEventListener('touchmove', (e) => {
+          if (e.touches.length === 1) {
+            this.dragMove(e.touches[0].clientX);
+          }
+        }, { passive: true });
+        
+        bannerHalf.addEventListener('touchend', () => this.dragEnd());
+      }
+      
+      dragStart(clientX) {
+        this.startX = clientX;
+        this.isDragging = true;
+        this.stopAutoPlay();
+      }
+      
+      dragMove(clientX) {
+        if (!this.isDragging) return;
+        this.currentX = clientX;
+      }
+      
+      dragEnd() {
+        if (!this.isDragging) return;
+        this.isDragging = false;
+        
+        const deltaX = this.currentX - this.startX;
+        
+        if (this.currentX !== 0) {
+          if (deltaX > this.dragThreshold) {
+            this.prev();
+          } else if (deltaX < -this.dragThreshold) {
+            this.next();
+          }
+        }
+        
+        this.startX = 0;
+        this.currentX = 0;
+        
+        this.startAutoPlay();
+      }
+    }
+
     /* ══════════════════════════════════════════
        MOSAIC PRECISION ENGINE (Command 51 & 52)
        12 Columns x 15 Rows = 180 tiles
@@ -916,7 +1506,10 @@
       'assets/visualizing/reujy_visualizing_13____.jpg'
     ];
 
+    let leftBanner, rightBanner;
+
     const archiveSection       = document.getElementById('archive-section');
+    const mainContainer        = document.getElementById('main-container');
     const archiveGridContainer = document.getElementById('archive-grid-container');
     const mainArtistName       = document.getElementById('main-artist-name');
     const exhibitionCard       = document.getElementById('exhibition-floating-card');
@@ -926,6 +1519,10 @@
     const lightboxClose        = document.getElementById('lightbox-close');
 
     let currentTab = 'photography';
+
+    // Initialize rolling banners
+    leftBanner = new RollingBanner('banner-left', PHOTOGRAPHY_IMAGES, 7000);
+    rightBanner = new RollingBanner('banner-right', VISUALIZING_IMAGES, 7000);
 
     // Precision Masonry dynamic aspect-ratio resizing (Density-First Grid)
     function resizeGridItem(item) {
@@ -1048,8 +1645,14 @@
       // Transition main section out
       mainSection.classList.remove('visible');
       mainSection.setAttribute('aria-hidden', 'true');
+      mainContainer.classList.remove('visible');
+      mainContainer.setAttribute('aria-hidden', 'true');
       exhibitionCard.classList.remove('revealed');
       
+      // Pause banner rotations
+      if (leftBanner) leftBanner.pause();
+      if (rightBanner) rightBanner.pause();
+
       // Transition archive section in
       archiveSection.classList.add('visible');
       archiveSection.setAttribute('aria-hidden', 'false');
@@ -1065,10 +1668,43 @@
     function showHomeView() {
       archiveSection.classList.remove('visible');
       archiveSection.setAttribute('aria-hidden', 'true');
+      mainContainer.classList.remove('visible');
+      mainContainer.setAttribute('aria-hidden', 'true');
       
+      // Pause banner rotations
+      if (leftBanner) leftBanner.pause();
+      if (rightBanner) rightBanner.pause();
+
       mainSection.classList.add('visible');
       mainSection.setAttribute('aria-hidden', 'false');
       exhibitionCard.classList.add('revealed');
+    }
+
+    // Navigation function: Show Process/Profile View
+    function showProcessView(scrollToExhibitions = false) {
+      mainSection.classList.remove('visible');
+      mainSection.setAttribute('aria-hidden', 'true');
+      archiveSection.classList.remove('visible');
+      archiveSection.setAttribute('aria-hidden', 'true');
+      exhibitionCard.classList.remove('revealed');
+      
+      mainContainer.classList.add('visible');
+      mainContainer.setAttribute('aria-hidden', 'false');
+      
+      // Resume banner rotations
+      if (leftBanner) leftBanner.resume();
+      if (rightBanner) rightBanner.resume();
+
+      if (scrollToExhibitions) {
+        setTimeout(() => {
+          const section = document.getElementById('exhibitions-section');
+          if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 300);
+      } else {
+        mainContainer.scrollTop = 0;
+      }
     }
 
     // Event listeners for Navigation Menu Links
@@ -1076,6 +1712,20 @@
       link.addEventListener('click', (e) => {
         e.preventDefault();
         showArchiveView();
+      });
+    });
+
+    document.querySelectorAll('#top-text-nav a[href="#process"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showProcessView(false);
+      });
+    });
+
+    document.querySelectorAll('#top-text-nav a[href="#notes"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showProcessView(true);
       });
     });
 
