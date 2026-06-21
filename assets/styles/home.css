@@ -7,6 +7,7 @@
   z-index: 30;
   width: 100vw;
   height: 100vh;
+  height: 100svh;
   background-color: var(--gate-white);
   display: flex;
   flex-direction: column;
@@ -66,6 +67,7 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
+  height: 100svh;
   background-color: var(--bone-white);
   z-index: 10;
   opacity: 0;
@@ -80,7 +82,8 @@
 }
 
 #dual-banner-section {
-  height: 100vh; /* Banner covers full screen on home */
+  height: 100vh;
+  height: 100svh; /* Banner covers full screen on home */
   display: flex;
   overflow: hidden;
   width: 100%;
@@ -183,6 +186,7 @@
   }
   .banner-half {
     height: 50vh;
+    height: 50svh;
     width: 100%;
   }
   .banner-half:hover {

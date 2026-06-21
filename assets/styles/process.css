@@ -3,7 +3,9 @@
    ══════════════════════════════════════════ */
 #process-wrapper {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100svh;
+  overflow-y: auto;
   background-color: #FDFBF7; /* warm creamy white background */
   padding-top: 140px;
   padding-bottom: 100px;

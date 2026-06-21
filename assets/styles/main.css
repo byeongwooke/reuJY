@@ -23,7 +23,10 @@
 
 html, body {
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  position: fixed;
   background-color: var(--bone-white);
   -webkit-font-smoothing: antialiased;
   color: var(--ink);
@@ -246,8 +249,9 @@ body.loaded #main-artist-name { animation-delay: 0.1s; }
     font-size: 11px;
     letter-spacing: 1px;
   }
-  #exhibition-floating-card {
-    bottom: 20px;
+  #exhibition-floating-card, #nav-panel {
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    bottom: max(20px, env(safe-area-inset-bottom));
     right: 20px;
   }
   #lightbox-overlay {
