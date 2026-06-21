@@ -100,59 +100,7 @@
       100% { opacity: 0; transform: translateY(-4px); }
     }
 
-    /* ══════════════════════════════════════════
-       MAIN SECTION (Command 21, 22, 41)
-    ══════════════════════════════════════════ */
-    #main-section {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: var(--bone-white);               /* Command 21 & 41 */
-      padding: 5vh 5vw !important;                        /* Command 41 */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.8s ease 0.4s;
-      z-index: 10;
-    }
 
-    #main-section.visible {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    /* Structural grid line: horizontal visual balance boundaries */
-    #main-section::before,
-    #main-section::after {
-      content: '';
-      position: absolute;
-      left: 40px;
-      right: 40px;
-      height: 1px;
-      background-color: var(--army-faint);
-      pointer-events: none;
-      z-index: 2;
-    }
-    #main-section::before { top: 80px; }
-    #main-section::after  { bottom: 80px; }
-
-    /* Structural vertical lines for symmetrical grid aesthetics */
-    .vline {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: var(--army-faint);
-      pointer-events: none;
-      z-index: 1;
-    }
-    .vline-left  { left: calc(40px + (100vw - 80px) * 0.25); }
-    .vline-right { left: calc(40px + (100vw - 80px) * 0.75); }
 
     /* ══════════════════════════════════════════
        BALANCED OVERLAYS (Command 23, 24, 53)
@@ -240,121 +188,7 @@
       opacity: 0.6;
     }
 
-    /* ══════════════════════════════════════════
-       THE VOID AND THE FRAME (Command 42, 51)
-    ══════════════════════════════════════════ */
 
-    #philosophy-area {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      z-index: 3;
-    }
-
-    /* Command 42 & 51 — Art Object Frame: 742×947 aspect ratio */
-    #art-object-frame {
-      position: relative;
-      width: 742px;                    /* Command 51: Width 742px (Scaled) */
-      max-width: 85vw;                 /* Command 42: responsive width limit */
-      aspect-ratio: 742 / 947;         /* Command 42 & 51: aspect-ratio */
-      overflow: hidden;                /* Command 42 */
-      background-image: none;          /* Command 51: Background_Image: None */
-      box-shadow: 0 8px 48px rgba(72, 83, 32, 0.08);
-      z-index: 4;
-    }
-
-    /* Command 31, 43, 51 — Precision Grid */
-    #hero-mosaic-grid {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);  /* Command 51: 12 Columns */
-      grid-template-rows: repeat(15, 1fr);     /* Command 51: 15 Rows */
-      z-index: 5;
-    }
-
-    /* Command 32, 52 — Precision Tile Fragments */
-    .mosaic-tile {
-      overflow: hidden;
-      opacity: 0;
-      transition: opacity 0.18s ease;
-      background-repeat: no-repeat;
-    }
-
-    /* ══════════════════════════════════════════
-       PHILOSOPHY STATEMENT (Command 34, 44, 54)
-    ══════════════════════════════════════════ */
-
-    /* Command 54: Positioned exactly at Center_Middle with Z-index: 10 */
-    #philosophy-overlay {
-      position: absolute;
-      bottom: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      width: 90%;
-      max-width: 742px;
-      padding: 24px 20px;
-      background-color: rgba(72, 83, 32, 0.66);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      /* Transition overlay properties */
-      opacity: 0;
-      transition: opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-      pointer-events: none;
-    }
-
-    #philosophy-overlay.revealed {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Command 34 & 44 & 54: Core Philosophy */
-    #core-philosophy {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(14px, 3.2vw, 22px);
-      font-weight: 300;
-      color: #F8F8F8;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin: 0;
-      user-select: none;
-    }
-
-    /* Command 25 & 34: Philosophy Divider Line */
-    #philosophy-base-line {
-      display: none;
-    }
-
-    /* Philosophy Sub Title */
-    #philosophy-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      color: rgba(248, 248, 248, 0.6);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      user-select: none;
-      margin-top: 8px;
-    }
 
     /* ══════════════════════════════════════════
        NAVIGATION MENU OVERLAY
@@ -485,10 +319,10 @@
 
     .main-entrance { opacity: 0; }
 
-    #main-section.visible .main-entrance {
+    body.loaded .main-entrance {
       animation: mainFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
-    #main-section.visible #main-artist-name { animation-delay: 0.1s; }
+    body.loaded #main-artist-name { animation-delay: 0.1s; }
 
     /* ══════════════════════════════════════════
        ARCHIVE SECTION & THE KINETIC CASCADE
@@ -939,13 +773,7 @@
     ══════════════════════════════════════════ */
     @media (max-width: 600px) {
       #instagram-handle { font-size: 40px; letter-spacing: -0.5px; }
-      #artist-name      { font-size: 12px; letter-spacing: 1.5px; }
-      #enter-museum     { font-size: 12px; }
-      #main-section     { padding: 3vh 4vw !important; }
       #main-artist-name { font-size: 14px; top: 24px; left: 24px; }
-      #hamburger-trigger { top: 24px; right: 24px; }
-      .vline            { display: none; }
-      #art-object-frame { width: 90vw; }
       #exhibition-floating-card { bottom: 20px; right: 16px; }
 
       #archive-grid-container, #photography-grid {
@@ -998,43 +826,14 @@
   </div>
 
 
-  <!-- ══════════════════════════════════════════
-       MAIN SECTION (뮤지엄 메인) — Commands 21–27
-  ══════════════════════════════════════════ -->
-  <div id="main-section" aria-hidden="true" role="main">
+  <!-- ── FIXED GLOBAL OVERLAYS ── -->
+  <span id="main-artist-name" class="main-entrance">REU JY | 류지영</span>
 
-    <!-- Symmetrical grid vertical accent lines -->
-    <div class="vline vline-left"  aria-hidden="true"></div>
-    <div class="vline vline-right" aria-hidden="true"></div>
-
-    <!-- ── FIXED OVERLAYS ── -->
-    <span id="main-artist-name" class="main-entrance">REU JY | 류지영</span>
-
-    <nav id="top-text-nav" class="main-entrance" aria-label="메인 네비게이션">
-      <a href="#archive">Archive</a>
-      <a href="#process">Process</a>
-      <a href="#notes">Notes</a>
-    </nav>
-
-    <!-- ── CENTER: Framed Art Object + Absolute Overlay (Command 42, 51, 54) ── -->
-    <section id="philosophy-area" aria-label="표상의 여백">
-
-      <!-- Command 42 & 51: Art Object Frame (742×947, Background_Image: None) -->
-      <!-- Command 51: 12×15 Grid System -->
-      <div id="art-object-frame">
-        <div id="hero-mosaic-grid" aria-hidden="true"></div>
-      </div>
-
-      <!-- Command 34 & 54: Philosophy Text overlay (Absolute Centered, Mix Blend: Difference) -->
-      <div id="philosophy-overlay">
-        <p id="core-philosophy">우리 자아가 표상 안에서 마침내 자유롭기를.</p>
-        <hr id="philosophy-base-line" aria-hidden="true" />
-        <p id="philosophy-sub">The Infinite Representation</p>
-      </div>
-
-    </section>
-
-  </div><!-- /main-section -->
+  <nav id="top-text-nav" class="main-entrance" aria-label="메인 네비게이션">
+    <a href="#archive">Archive</a>
+    <a href="#process">Process</a>
+    <a href="#notes">Notes</a>
+  </nav>
 
 
   <!-- Command 35 & 45 & 53 — Fixed Bottom Right Exhibition Info -->
@@ -1414,73 +1213,33 @@
     }
 
     /* ══════════════════════════════════════════
-       MOSAIC PRECISION ENGINE (Command 51 & 52)
-       12 Columns x 15 Rows = 180 tiles
-       Background_Size: 1200% 1500%
-       Background_Position: (i * 100 / 11)% (j * 100 / 14)%
+       GLOBAL DOM REFERENCES & VARIABLES
     ══════════════════════════════════════════ */
-    const COLS = 12, ROWS = 15;
-    const mosaicGrid = document.getElementById('hero-mosaic-grid');
-    const imageSrc   = 'main.jpeg';
+    const gate                 = document.getElementById('gate-background');
+    const mainContainer        = document.getElementById('main-container');
+    const archiveSection       = document.getElementById('archive-section');
+    const archiveGridContainer = document.getElementById('archive-grid-container');
+    const mainArtistName       = document.getElementById('main-artist-name');
+    const exhibitionCard       = document.getElementById('exhibition-floating-card');
+    
+    const lightboxOverlay      = document.getElementById('lightbox-overlay');
+    const lightboxImg          = document.getElementById('lightbox-img');
+    const lightboxClose        = document.getElementById('lightbox-close');
 
-    /* Build 180 tiles using exact fragment mapping logic (Command 52) */
-    const tiles = [];
-    for (let r = 0; r < ROWS; r++) {       /* row index j */
-      for (let c = 0; c < COLS; c++) {     /* column index i */
-        const tile = document.createElement('div');
-        tile.className = 'mosaic-tile';
-        tile.style.backgroundImage    = `url('${imageSrc}')`;
-        tile.style.backgroundSize     = `${COLS * 100}% ${ROWS * 100}%`; /* 1200% 1500% */
-        
-        /* Command 52 Precision Position Calculation */
-        const posX = (c * 100) / (COLS - 1); /* i * 100 / 11 */
-        const posY = (r * 100) / (ROWS - 1); /* j * 100 / 14 */
-        tile.style.backgroundPosition = `${posX}% ${posY}%`;
-        
-        mosaicGrid.appendChild(tile);
-        tiles.push(tile);
-      }
-    }
-
-    /* Fisher-Yates shuffle helper */
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    /* Command 43: Random Tile Reveal — total duration 2.5s */
-    function startMosaicReveal() {
-      const shuffled = shuffle([...tiles]);
-      shuffled.forEach(tile => {
-        /* Fades in randomly within 2.3s so total finish is ≤2.5s */
-        const delay = Math.random() * 2300;
-        setTimeout(() => { tile.style.opacity = '1'; }, delay);
-      });
-
-      /* Command 54: Philosophy Reveal esattamente at center after 3.5s */
-      setTimeout(() => {
-        document.getElementById('philosophy-overlay').classList.add('revealed');
-        document.getElementById('exhibition-floating-card').classList.add('revealed');
-      }, 3500);
-    }
+    let leftBanner, rightBanner;
+    let currentTab = 'photography';
 
     /* ══════════════════════════════════════════
-       GATE → MAIN TRANSITION (Minimalist)
+       GATE → HOME TRANSITION
+       Automatically transition after the fade-in-out animation (2.5s)
     ══════════════════════════════════════════ */
-    const gate        = document.getElementById('gate-background');
-    const mainSection = document.getElementById('main-section');
-
-    // Automatically transition after the fade-in-out animation (2.5s)
     setTimeout(() => {
       gate.classList.add('fade-out');
+      document.body.classList.add('loaded');
       setTimeout(() => {
-        mainSection.setAttribute('aria-hidden', 'false');
-        mainSection.classList.add('visible');
-        /* Start mosaic 200ms after main section transition */
-        setTimeout(startMosaicReveal, 200);
+        mainContainer.setAttribute('aria-hidden', 'false');
+        mainContainer.classList.add('visible');
+        exhibitionCard.classList.add('revealed');
       }, 800);
     }, 2500);
 
@@ -1505,20 +1264,6 @@
       'assets/visualizing/reujy_visualizing_12_a woman in move_종이에 먹과 파스텔_40x55cm_2025.jpg',
       'assets/visualizing/reujy_visualizing_13____.jpg'
     ];
-
-    let leftBanner, rightBanner;
-
-    const archiveSection       = document.getElementById('archive-section');
-    const mainContainer        = document.getElementById('main-container');
-    const archiveGridContainer = document.getElementById('archive-grid-container');
-    const mainArtistName       = document.getElementById('main-artist-name');
-    const exhibitionCard       = document.getElementById('exhibition-floating-card');
-    
-    const lightboxOverlay      = document.getElementById('lightbox-overlay');
-    const lightboxImg          = document.getElementById('lightbox-img');
-    const lightboxClose        = document.getElementById('lightbox-close');
-
-    let currentTab = 'photography';
 
     // Initialize rolling banners
     leftBanner = new RollingBanner('banner-left', PHOTOGRAPHY_IMAGES, 7000);
@@ -1642,9 +1387,7 @@
 
     // Navigation function: Show Archive
     function showArchiveView() {
-      // Transition main section out
-      mainSection.classList.remove('visible');
-      mainSection.setAttribute('aria-hidden', 'true');
+      // Transition main container out
       mainContainer.classList.remove('visible');
       mainContainer.setAttribute('aria-hidden', 'true');
       exhibitionCard.classList.remove('revealed');
@@ -1664,37 +1407,29 @@
       setTimeout(resizeAllGridItems, 100);
     }
 
-    // Navigation function: Show Home (Main Splash)
+    // Navigation function: Show Home (Main Container)
     function showHomeView() {
+      // Transition archive section out
       archiveSection.classList.remove('visible');
       archiveSection.setAttribute('aria-hidden', 'true');
-      mainContainer.classList.remove('visible');
-      mainContainer.setAttribute('aria-hidden', 'true');
       
-      // Pause banner rotations
-      if (leftBanner) leftBanner.pause();
-      if (rightBanner) rightBanner.pause();
-
-      mainSection.classList.add('visible');
-      mainSection.setAttribute('aria-hidden', 'false');
-      exhibitionCard.classList.add('revealed');
-    }
-
-    // Navigation function: Show Process/Profile View
-    function showProcessView(scrollToExhibitions = false) {
-      mainSection.classList.remove('visible');
-      mainSection.setAttribute('aria-hidden', 'true');
-      archiveSection.classList.remove('visible');
-      archiveSection.setAttribute('aria-hidden', 'true');
-      exhibitionCard.classList.remove('revealed');
-      
+      // Transition main container in
       mainContainer.classList.add('visible');
       mainContainer.setAttribute('aria-hidden', 'false');
+      exhibitionCard.classList.add('revealed');
       
       // Resume banner rotations
       if (leftBanner) leftBanner.resume();
       if (rightBanner) rightBanner.resume();
 
+      // Scroll to top
+      mainContainer.scrollTop = 0;
+    }
+
+    // Navigation function: Show Process/Profile View
+    function showProcessView(scrollToExhibitions = false) {
+      showHomeView();
+      
       if (scrollToExhibitions) {
         setTimeout(() => {
           const section = document.getElementById('exhibitions-section');
@@ -1702,8 +1437,6 @@
             section.scrollIntoView({ behavior: 'smooth' });
           }
         }, 300);
-      } else {
-        mainContainer.scrollTop = 0;
       }
     }
 
