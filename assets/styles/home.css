@@ -73,7 +73,9 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden; /* Home is only the gate and banners */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 #main-container.visible {
@@ -198,3 +200,175 @@
     font-size: 12px;
   }
 }
+
+/* ── Scroll Down Indicator ── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: rgba(245, 245, 243, 0.75);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  animation: floatDown 2s infinite ease-in-out;
+}
+
+.scroll-indicator:hover {
+  color: #F5F5F3;
+}
+
+.scroll-indicator.hide {
+  opacity: 0;
+  transform: translate(-50%, 15px);
+  pointer-events: none;
+}
+
+.scroll-arrow {
+  font-size: 14px;
+}
+
+@keyframes floatDown {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+
+/* ── Latest Note Section (두 번째 영역) ── */
+#latest-note-section {
+  min-height: 70vh;
+  background-color: #FFFFFF;
+  padding: 140px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid rgba(72, 83, 32, 0.08);
+  position: relative;
+  z-index: 12;
+}
+
+#latest-note-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+.note-section-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.note-section-tag {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent-magenta);
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+}
+
+#latest-note-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.note-date {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: var(--mid);
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.note-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 300;
+  color: var(--army-green);
+  letter-spacing: 1px;
+  line-height: 1.4;
+  margin-bottom: 30px;
+  word-break: keep-all;
+}
+
+.note-excerpt {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 300;
+  line-height: 1.9;
+  color: #444444;
+  text-align: justify;
+  max-width: 640px;
+  margin: 0 auto 40px;
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+  opacity: 0.95;
+}
+
+.note-link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--army-green);
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border: 1px solid var(--army-light);
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  background-color: transparent;
+}
+
+.note-link:hover {
+  background-color: var(--army-green);
+  color: var(--bone-white);
+  border-color: var(--army-green);
+  letter-spacing: 3px;
+  box-shadow: 0 4px 12px rgba(72, 83, 32, 0.15);
+}
+
+/* Scroll reveal animation */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  #latest-note-section {
+    padding: 80px 24px;
+    min-height: 50vh;
+  }
+  .note-section-tag {
+    margin-bottom: 24px;
+  }
+  .note-title {
+    margin-bottom: 20px;
+  }
+  .note-excerpt {
+    margin-bottom: 30px;
+  }
+}
+

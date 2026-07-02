@@ -190,3 +190,33 @@ body.loaded #notes-wrapper {
     font-size: 15px;
   }
 }
+
+/* Highlight Pulse for Query Parameter Navigation */
+.essay-chapter {
+  position: relative;
+  transition: border-left-color 0.5s ease, background-color 0.5s ease, padding-left 0.5s ease;
+  border-left: 3px solid transparent;
+  padding-left: 0;
+}
+
+.essay-chapter.highlight-pulse {
+  animation: noteHighlightPulse 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes noteHighlightPulse {
+  0% {
+    border-left-color: transparent;
+    background-color: transparent;
+    padding-left: 0;
+  }
+  15% {
+    border-left-color: var(--accent-magenta);
+    background-color: rgba(139, 0, 75, 0.05);
+    padding-left: 24px;
+  }
+  100% {
+    border-left-color: transparent;
+    background-color: transparent;
+    padding-left: 0;
+  }
+}

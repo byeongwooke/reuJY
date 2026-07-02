@@ -12,6 +12,7 @@
   
   <link rel="stylesheet" href="assets/styles/main.css" />
   <link rel="stylesheet" href="assets/styles/home.css" />
+  <script src="data/notes.js" defer></script>
 </head>
 <body>
 
@@ -57,7 +58,23 @@
         <div class="banner-slides"></div>
         <span class="banner-label">Visual Art</span>
       </div>
+      
+      <!-- Scroll Down Indicator -->
+      <div class="scroll-indicator" onclick="document.getElementById('latest-note-section').scrollIntoView({ behavior: 'smooth' })">
+        <span class="scroll-text">Scroll Down</span>
+        <span class="scroll-arrow">↓</span>
+      </div>
     </div>
+
+    <!-- ── LATEST NOTE PREVIEW SECTION ── -->
+    <section id="latest-note-section" class="scroll-reveal">
+      <div class="note-section-inner">
+        <span class="note-section-tag">LATEST NOTE</span>
+        <div id="latest-note-preview">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -254,7 +271,51 @@
           exhibitionCard.classList.add('revealed');
         }, 800);
       }, 2500);
+
+      /* 1. 날짜 기준 내림차순 정렬 */
+      const latestNote = NOTES.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+      
+      /* 2. index.html의 '두 번째 영역'에 데이터 삽입 */
+      const container = document.getElementById('latest-note-preview');
+      if (container && latestNote) {
+        container.innerHTML = `
+          <span class="note-date">${latestNote.date}</span>
+          <h3 class="note-title">${latestNote.title}</h3>
+          <p class="note-excerpt">${latestNote.content}</p>
+          <a href="notes.html?id=${latestNote.id}" class="note-link">Read More</a>
+        `;
+      }
+
+      // Initialize Scroll Reveal and scroll listener
+      initScrollReveal();
     });
+
+    function initScrollReveal() {
+      const revealEl = document.querySelector('.scroll-reveal');
+      const scrollIndicator = document.querySelector('.scroll-indicator');
+      const mainContainer = document.getElementById('main-container');
+      
+      if (mainContainer && scrollIndicator) {
+        mainContainer.addEventListener('scroll', () => {
+          if (mainContainer.scrollTop > 50) {
+            scrollIndicator.classList.add('hide');
+          } else {
+            scrollIndicator.classList.remove('hide');
+          }
+        });
+      }
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      if (revealEl) observer.observe(revealEl);
+    }
   </script>
 </body>
 </html>

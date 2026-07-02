@@ -12,6 +12,7 @@
   
   <link rel="stylesheet" href="assets/styles/main.css" />
   <link rel="stylesheet" href="assets/styles/notes.css" />
+  <script src="data/notes.js" defer></script>
 </head>
 <body>
 
@@ -47,7 +48,7 @@
       </header>
 
       <!-- Chapter 01 -->
-      <article class="essay-chapter" aria-labelledby="chapter-1-title">
+      <article class="essay-chapter" id="note-1" aria-labelledby="chapter-1-title">
         <div class="chapter-number">Note 01</div>
         <h2 class="chapter-title" id="chapter-1-title">표상의 여백 (The Blankness of Representation)</h2>
         
@@ -80,7 +81,7 @@
       </div>
 
       <!-- Chapter 02 -->
-      <article class="essay-chapter" aria-labelledby="chapter-2-title">
+      <article class="essay-chapter" id="note-2" aria-labelledby="chapter-2-title">
         <div class="chapter-number">Note 02</div>
         <h2 class="chapter-title" id="chapter-2-title">지각과 인지의 틈새 (The Fissures of Perception &amp; Cognition)</h2>
         
@@ -105,7 +106,7 @@
       </article>
 
       <!-- Chapter 03 -->
-      <article class="essay-chapter" aria-labelledby="chapter-3-title">
+      <article class="essay-chapter" id="note-3" aria-labelledby="chapter-3-title">
         <div class="chapter-number">Note 03</div>
         <h2 class="chapter-title" id="chapter-3-title">질감과 잔상 (Textures &amp; Afterimages)</h2>
         
@@ -143,7 +144,43 @@
       
       // Initialize Scroll Reveal for chapters
       initScrollReveal();
+
+      // Check query parameter for specific note id
+      handleRouteParam();
     });
+
+    // Check URL query parameters and scroll to matching note
+    function handleRouteParam() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const noteId = urlParams.get('id');
+      if (noteId) {
+        const targetElement = document.getElementById(`note-${noteId}`);
+        const scrollContainer = document.getElementById('notes-wrapper');
+        if (targetElement && scrollContainer) {
+          // Force make it active (fade in) since we are navigating directly to it
+          targetElement.classList.add('active');
+          
+          // Wait slightly for the page load transitions to settle before scrolling
+          setTimeout(() => {
+            // Smoothly scroll the notes-wrapper container to the target note
+            const containerTop = scrollContainer.getBoundingClientRect().top;
+            const elementTop = targetElement.getBoundingClientRect().top;
+            const absoluteElementTop = scrollContainer.scrollTop + elementTop - containerTop;
+            
+            scrollContainer.scrollTo({
+              top: absoluteElementTop - 40, // 40px padding offset
+              behavior: 'smooth'
+            });
+            
+            // Add a temporary visual highlight pulse class
+            targetElement.classList.add('highlight-pulse');
+            setTimeout(() => {
+              targetElement.classList.remove('highlight-pulse');
+            }, 2500);
+          }, 600);
+        }
+      }
+    }
 
     // IntersectionObserver for scroll fade-in
     function initScrollReveal() {
