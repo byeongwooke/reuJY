@@ -20,9 +20,10 @@ body.loaded #notes-wrapper {
 }
 
 #notes-container {
-  max-width: 960px;
+  max-width: 1200px;
+  width: 90%;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 100px 20px;
 }
 
 /* ── Notes Page Header ── */
@@ -83,41 +84,74 @@ body.loaded #notes-wrapper {
   padding-bottom: 16px;
 }
 
-/* Bilingual Side-by-Side Essay Columns */
-.essay-content-columns {
+/* ── Note Grid Layout (좌측 이미지 - 우측 텍스트) ── */
+.note-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: 1fr 2fr; /* 텍스트 2(2/3) : 이미지 1(1/3) 비율로 정밀 조정 */
+  gap: 80px;
+  padding: 100px 10%;
+  align-items: start;
 }
 
-.essay-column {
+.note-image-wrapper {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 2px;
+  box-shadow: 0 16px 40px rgba(72, 83, 32, 0.08);
+}
+
+.note-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.85; /* 글에 집중하도록 살짝 낮춘 투명도 */
+  display: block;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.note-wrapper:hover .note-image {
+  opacity: 1.0;
+  transform: scale(1.02);
+}
+
+.note-content-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 24px;
 }
 
-.essay-column.kr {
+.note-date-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: var(--mid);
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.note-content {
   font-family: 'Noto Serif KR', serif;
-  font-size: 14.5px;
-  font-weight: 300;
-  line-height: 1.9;
-  color: #333333;
+  font-size: 19px;
+  line-height: 2.2;
+  color: #1a1a1a;
   text-align: justify;
-  letter-spacing: -0.01em;
 }
 
-.essay-column.en {
+.lang-kr {
+  font-family: 'Noto Serif KR', serif;
+  margin-bottom: 40px;
+}
+
+.lang-en {
   font-family: 'EB Garamond', serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.8;
+  font-size: 19px;
   color: #555555;
-  text-align: justify;
-  letter-spacing: 0.02em;
+  border-top: 1px solid rgba(72, 83, 32, 0.08);
+  padding-top: 30px;
+  margin-top: 10px;
 }
 
 /* Drop Caps for premium editorial look */
-.essay-column.kr p:first-of-type::first-letter {
+.lang-kr p:first-of-type::first-letter {
   font-family: 'Noto Serif KR', serif;
   font-size: 2.8em;
   float: left;
@@ -127,7 +161,7 @@ body.loaded #notes-wrapper {
   font-weight: 600;
 }
 
-.essay-column.en p:first-of-type::first-letter {
+.lang-en p:first-of-type::first-letter {
   font-family: 'EB Garamond', serif;
   font-size: 3em;
   float: left;
@@ -178,9 +212,13 @@ body.loaded #notes-wrapper {
   .notes-title {
     font-size: 26px;
   }
-  .essay-content-columns {
+  .note-wrapper {
     grid-template-columns: 1fr;
     gap: 40px;
+    padding: 60px 24px;
+  }
+  .note-image-wrapper {
+    max-height: 400px;
   }
   .essay-pull-quote {
     padding: 20px;
