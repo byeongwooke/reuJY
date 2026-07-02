@@ -89,6 +89,32 @@
   display: flex;
   overflow: hidden;
   width: 100%;
+  position: relative;
+}
+
+#dual-banner-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 35%; 
+  background: linear-gradient(to bottom, rgba(34, 25, 18, 0.45) 0%, rgba(34, 25, 18, 0.1) 60%, rgba(34, 25, 18, 0) 100%);
+  pointer-events: none; /* 관람자의 드래그/스와이프 인터랙션을 방해하지 않음 */
+  z-index: 5;
+}
+
+/* ── Global Header Color Alignment (Home Page Scrim Context) ── */
+#main-artist-name, #top-text-nav a {
+  color: #F8F8F8;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+body.scrolled-past #main-artist-name,
+body.scrolled-past #top-text-nav a {
+  color: var(--army-green);
+  text-shadow: none;
 }
 
 .banner-half {

@@ -362,6 +362,13 @@
           } else {
             scrollIndicator.classList.remove('hide');
           }
+
+          // Toggle header text color when scrolled past the banner section
+          if (mainContainer.scrollTop > window.innerHeight - 80) {
+            document.body.classList.add('scrolled-past');
+          } else {
+            document.body.classList.remove('scrolled-past');
+          }
         });
       }
 
