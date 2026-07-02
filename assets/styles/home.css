@@ -244,8 +244,9 @@
 /* ── Latest Note Section (두 번째 영역) ── */
 #latest-note-section {
   min-height: 70vh;
-  background-color: #FFFFFF;
-  border-top: 1px solid rgba(72, 83, 32, 0.08);
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
   position: relative;
   z-index: 12;
   display: flex;
@@ -296,11 +297,13 @@
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 /* PC hover and active flipped state */
 .note-card:hover, .note-card.flipped {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translate3d(0, 0, 0);
 }
 
 /* Card Front: Image Centric */
