@@ -245,13 +245,17 @@
 #latest-note-section {
   min-height: 70vh;
   background-color: #FFFFFF;
-  padding: 140px 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-top: 1px solid rgba(72, 83, 32, 0.08);
   position: relative;
   z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
 }
 
 #latest-note-section::before {
@@ -263,85 +267,79 @@
   z-index: 1;
 }
 
-.note-section-inner {
+.notes-carousel-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  perspective: 1000px;
   position: relative;
   z-index: 2;
-  max-width: 800px;
-  width: 100%;
-  text-align: center;
 }
 
-.note-section-tag {
-  display: inline-block;
+.card-flip-notice {
   font-family: 'Montserrat', sans-serif;
   font-size: 11px;
-  font-weight: 500;
-  color: var(--accent-magenta);
-  letter-spacing: 3px;
-  margin-bottom: 40px;
+  letter-spacing: 0.2em;
+  color: #888888;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  user-select: none;
 }
 
-#latest-note-preview {
+.note-card {
+  width: 320px;
+  height: 420px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+/* PC hover and active flipped state */
+.note-card:hover, .note-card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Card Front: Image Centric */
+.note-card-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background-color: #F4F1EA;
+  border-radius: 2px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.note-date {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  color: var(--mid);
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-  display: block;
+/* Card Back: Editorial Text */
+.note-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: rotateY(180deg);
+  background-color: #FDFBF7;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 2px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
 }
 
-.note-title {
-  font-family: 'Noto Serif KR', serif;
-  font-size: clamp(24px, 4vw, 36px);
-  font-weight: 300;
-  color: var(--army-green);
-  letter-spacing: 1px;
-  line-height: 1.4;
-  margin-bottom: 30px;
-  word-break: keep-all;
+.note-card-image {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.note-excerpt {
-  font-family: 'Noto Serif KR', serif;
-  font-size: clamp(14px, 1.8vw, 16px);
-  font-weight: 300;
-  line-height: 1.9;
-  color: #444444;
-  text-align: justify;
-  max-width: 640px;
-  margin: 0 auto 40px;
-  letter-spacing: -0.01em;
-  word-break: keep-all;
-  opacity: 0.95;
-}
-
-.note-link {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--army-green);
-  text-decoration: none;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 6px 16px;
-  border: 1px solid var(--army-light);
-  border-radius: 20px;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  background-color: transparent;
-}
-
-.note-link:hover {
-  background-color: var(--army-green);
-  color: var(--bone-white);
-  border-color: var(--army-green);
-  letter-spacing: 3px;
-  box-shadow: 0 4px 12px rgba(72, 83, 32, 0.15);
+.note-card:hover .note-card-image {
+  transform: scale(1.05);
 }
 
 /* Scroll reveal animation */
@@ -358,17 +356,23 @@
 
 @media (max-width: 768px) {
   #latest-note-section {
-    padding: 80px 24px;
+    padding: 60px 0;
     min-height: 50vh;
   }
-  .note-section-tag {
-    margin-bottom: 24px;
+  .notes-carousel-container {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 20px 40px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  .note-title {
-    margin-bottom: 20px;
+  .notes-carousel-container::-webkit-scrollbar {
+    display: none;
   }
-  .note-excerpt {
-    margin-bottom: 30px;
+  .note-card {
+    scroll-snap-align: center;
+    flex-shrink: 0;
   }
 }
 
