@@ -72,40 +72,13 @@
   position: absolute;
   padding: 11px 22px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 13px;
   font-weight: 300;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #2E2E2E;
   cursor: pointer;
   user-select: none;
-  /* will-change: transform, opacity, left, top 로 GPU 가속 */
+  /* 회전 / 컴포지트 레이어로 GPU 가속화 */
   will-change: transform, opacity, left, top;
-}
-
-/* 밑줄 언더라인 — 마젠타 시그니처 */
-.pebble-word::after {
-  content: '';
-  position: absolute;
-  bottom: 5px;
-  left: 22px;
-  right: 22px;
-  height: 1px;
-  background-color: #8B004B;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.pebble-word:hover {
-  color: #8B004B;
-}
-
-.pebble-word:hover::after {
-  transform: scaleX(1);
-}
-
-/* 클릭 피드백 — 살짝 눌리는 느낌 */
-.pebble-word:active {
-  transform: scale(0.97) !important;
+  /* 호버는 JS mouseenter/mouseleave가 inline style로 직접 제어함 */
 }

@@ -64,10 +64,11 @@
     const placedElements = [];
 
     /* ─────────────────────────────────────────
-       ANTI-COLLISION PACKING ENGINE
+       ROTATED BOUNDING BOX ANTI-COLLISION ENGINE
+       삼각함수로 회전된 객체의 실제 절대 면적 계산
     ───────────────────────────────────────── */
     function isOverlapping(x, y, w, h) {
-      const padding = 50;
+      const padding = 35; // 충돌 방지를 위한 절대 여백
       for (let el of placedElements) {
         if (
           x < el.x + el.w + padding &&
@@ -82,7 +83,8 @@
     }
 
     /* ─────────────────────────────────────────
-       GONGGI SCATTER — 공기놀이 흩뿌림 물리 엔진
+       KINETIC GONGGI SCATTER ENGINE
+       공기놀이 + 랜덤 크기 & 기울기 + 삼각함수 충돌 방지
     ───────────────────────────────────────── */
     function scatterPebbles() {
       container.innerHTML = '';
@@ -101,53 +103,72 @@
         el.innerText = word;
         el.setAttribute('aria-label', word + ' 카테고리 보기');
 
-        /* 초기 상태: 정중앙에 뭉쳐있고 투명 */
-        el.style.left    = `${startX}px`;
-        el.style.top     = `${startY}px`;
-        el.style.transform = 'translate(-50%, -50%) scale(0.15)';
+        /* 1. 랜덤 폰트 사이즈 (14px ~ 34px — 가독성을 잃지 않는 선) */
+        const fontSize = Math.floor(Math.random() * 21) + 14;
+        el.style.fontSize = `${fontSize}px`;
+
+        /* 2. 랜덤 기울기 (-40° ~ +40°) */
+        const rotation = Math.floor(Math.random() * 81) - 40;
+
+        /* 초기 상태: 정중앙 집결, 투명, 기울기 0도 */
+        el.style.left      = `${startX}px`;
+        el.style.top       = `${startY}px`;
+        el.style.transform = 'translate(-50%, -50%) scale(0.15) rotate(0deg)';
         el.style.opacity   = '0';
-        /* 탄력있는 날아가는 전환 — cubic-bezier overshoot 적용 */
-        el.style.transition = `opacity 0.4s ease, left 0.9s cubic-bezier(0.25, 1, 0.3, 1), top 0.9s cubic-bezier(0.25, 1, 0.3, 1), transform 0.9s cubic-bezier(0.25, 1, 0.3, 1)`;
+        el.style.color     = '#2E2E2E';
+        /* JS가 호버를 직접 제어하므로 transition만 설정 */
+        el.style.transition = 'opacity 0.4s ease, left 0.9s cubic-bezier(0.25, 1, 0.3, 1), top 0.9s cubic-bezier(0.25, 1, 0.3, 1), transform 0.9s cubic-bezier(0.25, 1, 0.3, 1), color 0.3s ease';
 
         container.appendChild(el);
 
-        /* 실제 렌더링된 크기 측정 */
-        const elW = el.offsetWidth  || (word.length * 9 + 48);
-        const elH = el.offsetHeight || 44;
+        /* 실제 렌더링된 원본 크기 측정 (회전 전) */
+        const elW = el.offsetWidth  || (word.length * fontSize * 0.65 + 44);
+        const elH = el.offsetHeight || (fontSize + 24);
 
-        /* 충돌 방지 좌표 탐색 */
+        /* 3. 삼각함수 Bounding Box 계산
+              회전 시 실제로 차지하는 가로/세로 절대 면적 도출 */
+        const rad  = rotation * (Math.PI / 180);
+        const boxW = Math.abs(elW * Math.cos(rad)) + Math.abs(elH * Math.sin(rad));
+        const boxH = Math.abs(elW * Math.sin(rad)) + Math.abs(elH * Math.cos(rad));
+
+        /* 4. 회전된 Bounding Box 기준 충돌 방지 좌표 탐색 */
         let targetX, targetY, attempts = 0;
-        const marginX = vW * 0.08;
-        const marginY = vH * 0.12;
-
         do {
-          targetX = Math.random() * (vW - elW - marginX * 2) + marginX;
-          targetY = Math.random() * (vH - elH - marginY * 2) + marginY;
+          targetX = Math.random() * (vW - boxW - 80) + 40;
+          targetY = Math.random() * (vH - boxH - 80) + 40;
           attempts++;
-        } while (isOverlapping(targetX, targetY, elW, elH) && attempts < 150);
+        } while (isOverlapping(targetX, targetY, boxW, boxH) && attempts < 250);
 
-        placedElements.push({ x: targetX, y: targetY, w: elW, h: elH });
+        /* 회전된 Bounding Box 기준으로 배치 기록 */
+        placedElements.push({ x: targetX, y: targetY, w: boxW, h: boxH });
 
-        /* 시간차 스태거: 중앙에서 각자의 좌표로 탄력있게 튕겨나감 */
+        /* 5. 시간차 스태거: 중앙에서 각자의 좌표 + 고유 기울기로 탄력 있게 튕겨나감 */
         setTimeout(() => {
           el.style.opacity   = '1';
           el.style.left      = `${targetX}px`;
           el.style.top       = `${targetY}px`;
-          el.style.transform = 'translate(0, 0) scale(1)';
+          el.style.transform = `translate(0, 0) scale(1) rotate(${rotation}deg)`;
         }, 50 + (index * 60));
 
-        /* 클릭 → archive.html 라우팅 */
+        /* 6. JS 호버 — 고유 기울기(rotation) 유지한 채 스케일/색상만 전환 */
+        el.addEventListener('mouseenter', () => {
+          el.style.transform = `translate(0, -3px) scale(1.1) rotate(${rotation}deg)`;
+          el.style.color     = '#8B004B';
+        });
+        el.addEventListener('mouseleave', () => {
+          el.style.transform = `translate(0, 0) scale(1) rotate(${rotation}deg)`;
+          el.style.color     = '#2E2E2E';
+        });
+
+        /* 7. 클릭 → 기울기 유지하며 사라진 후 archive.html 라우팅 */
         el.addEventListener('click', () => {
           const url = ARCHIVE_ROUTE[word] || `archive.html?category=${encodeURIComponent(word)}`;
 
-          /* 클릭 시 단어가 사라지며 전환되는 효과 */
-          el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          el.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
           el.style.opacity    = '0';
-          el.style.transform  = 'scale(1.08)';
+          el.style.transform  = `translate(0, -6px) scale(1.12) rotate(${rotation}deg)`;
 
-          setTimeout(() => {
-            window.location.href = url;
-          }, 280);
+          setTimeout(() => { window.location.href = url; }, 280);
         });
       });
     }
