@@ -23,16 +23,15 @@
 
 html, body {
   width: 100%;
-  min-height: 100vh;
-  min-height: 100svh;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;   /* 스크롤 원천 봉쇄 */
   background-color: #F5F5F3;
   -webkit-font-smoothing: antialiased;
   color: #1A1A1A;
   font-family: 'EB Garamond', 'Noto Serif KR', serif;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scroll-behavior: smooth;
 }
+
 
 /* Scrollbar styling for premium look */
 ::-webkit-scrollbar {

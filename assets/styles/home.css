@@ -1,19 +1,24 @@
 /* ══════════════════════════════════════════
-   GATE (대문) — Background
+   GATE (대문) — Off-White Loading Screen
    ══════════════════════════════════════════ */
 #gate-background {
   position: fixed;
   inset: 0;
   z-index: 30;
-  width: 100vw;
-  height: 100vh;
-  height: 100svh;
   background-color: #F5F5F3;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#gate-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* 미세한 필름 그레인 — 박물관 질감 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");
+  pointer-events: none;
 }
 
 #gate-background.fade-out {
@@ -21,385 +26,86 @@
   pointer-events: none;
 }
 
-/* Grain texture for the classic museum feel */
-#gate-background::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
 .gate-content {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 #instagram-handle {
   font-family: 'Noto Serif KR', serif;
   font-size: 13px;
   font-weight: 300;
-  color: #666666;
-  letter-spacing: 4px;
+  color: #888888;
+  letter-spacing: 5px;
   text-align: center;
   user-select: none;
   opacity: 0;
-  animation: gateFadeInOut 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: gatePulse 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@keyframes gateFadeInOut {
-  0% { opacity: 0; transform: translateY(4px); }
-  30% { opacity: 1; transform: translateY(0); }
-  80% { opacity: 1; transform: translateY(0); }
+@keyframes gatePulse {
+  0%   { opacity: 0; transform: translateY(6px); }
+  25%  { opacity: 1; transform: translateY(0); }
+  75%  { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-4px); }
 }
 
+
 /* ══════════════════════════════════════════
-   SECTION 1: SCATTER INTRO SPACE (canvas-flow)
+   ONE-SCREEN CANVAS — 스크롤 원천 봉쇄
    ══════════════════════════════════════════ */
 #scatter-intro-space {
-  position: relative;
-  width: 100%;
-  height: 100svh; /* Safari bottom bar support */
-  display: block;
-  overflow: hidden;
+  position: fixed;           /* 화면 전체 고정 */
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;           /* 스크롤 영구 차단 */
   background-color: #F5F5F3;
 }
 
+
+/* ══════════════════════════════════════════
+   PEBBLE WORD — 조약돌 단어
+   ══════════════════════════════════════════ */
 .pebble-word {
   position: absolute;
-  padding: 12px 24px;
-  font-size: 14px;
-  letter-spacing: 0.15em;
+  padding: 11px 22px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #333333;
+  color: #2E2E2E;
   cursor: pointer;
   user-select: none;
-  opacity: 0;
-  transform: scale(0.8) translate3d(0, 30px, 0);
-  transition: opacity 1s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
-  will_change: transform, opacity;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
+  /* will-change: transform, opacity, left, top 로 GPU 가속 */
+  will-change: transform, opacity, left, top;
 }
 
+/* 밑줄 언더라인 — 마젠타 시그니처 */
 .pebble-word::after {
   content: '';
   position: absolute;
-  bottom: 6px;
-  left: 24px;
-  right: 24px;
+  bottom: 5px;
+  left: 22px;
+  right: 22px;
   height: 1px;
   background-color: #8B004B;
   transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .pebble-word:hover {
-  color: #8B004B; /* Signature Artist color: Magenta point */
-  transform: scale(1.05) translate3d(0, -2px, 0);
+  color: #8B004B;
 }
 
 .pebble-word:hover::after {
   transform: scaleX(1);
 }
 
-/* ══════════════════════════════════════════
-   SECTION 2: SELECTED ARCHIVE SPACE (masonry-dense)
-   ══════════════════════════════════════════ */
-#selected-archive-space {
-  width: 100%;
-  padding: 120px 40px 80px;
-  background-color: #F5F5F3;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-#selected-archive-space.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.archive-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.archive-header h2 {
-  font-family: 'EB Garamond', serif;
-  font-size: 32px;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #1A1A1A;
-  margin-bottom: 12px;
-}
-
-.archive-header p {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: #888888;
-  text-transform: uppercase;
-}
-
-#selected-archive-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-auto-rows: 15px; /* detailed rows for fine masonry grid layout */
-  grid-auto-flow: dense;
-  gap: 30px 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.archive-item {
-  position: relative;
-  overflow: hidden;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.archive-item.animate-arrival {
-  animation: cascade-arrival 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes cascade-arrival {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.archive-item-image {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  transition: filter 0.8s ease, transform 0.8s ease;
-  filter: grayscale(20%) brightness(0.95);
-}
-
-.archive-item:hover .archive-item-image {
-  filter: grayscale(0%) brightness(1);
-  transform: scale(1.02);
-}
-
-.archive-item-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24px 16px 16px;
-  background: linear-gradient(to top, rgba(245, 245, 243, 0.98), transparent);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  font-family: 'Noto Serif KR', serif;
-  font-size: 11px;
-  color: #666666;
-  text-align: center;
-  letter-spacing: 1px;
-  pointer-events: none;
-  border-top: 1px solid rgba(72, 83, 32, 0.05);
-}
-
-.archive-item:hover .archive-item-caption {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ══════════════════════════════════════════
-   SECTION 3: ARTIST STORY SPACE (serene-manifesto)
-   ══════════════════════════════════════════ */
-#artist-story-space {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 120px 40px 160px;
-  border-top: 1px solid rgba(26, 26, 26, 0.08);
-  background-color: #F5F5F3;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-#artist-story-space.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.story-container {
-  display: grid;
-  grid-template-columns: 1.2fr 1.8fr;
-  gap: 80px;
-}
-
-.story-left h3 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #888888;
-  margin-bottom: 24px;
-}
-
-.story-left .artist-statement {
-  font-family: 'Noto Serif KR', serif;
-  font-size: 15px;
-  line-height: 2.0;
-  color: #333333;
-  text-align: justify;
-  word-break: keep-all;
-  white-space: pre-line;
-}
-
-.story-right h3 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #888888;
-  margin-bottom: 24px;
-}
-
-.exhibition-block {
-  margin-bottom: 40px;
-}
-
-.exhibition-list {
-  list-style: none;
-  padding: 0;
-}
-
-.exhibition-item {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  font-size: 13.5px;
-  line-height: 1.6;
-}
-
-.exhibition-year {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  width: 70px;
-  flex-shrink: 0;
-  color: #1A1A1A;
-  letter-spacing: 1px;
-}
-
-.exhibition-details {
-  font-family: 'Noto Serif KR', serif;
-  color: #555555;
-  word-break: keep-all;
-}
-
-.exhibition-title {
-  color: #1A1A1A;
-  font-weight: 400;
-}
-
-/* ══════════════════════════════════════════
-   PREMIUM LIGHTBOX OVERLAY
-   ══════════════════════════════════════════ */
-#lightbox-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(245, 245, 243, 0.98);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  backdrop-filter: blur(8px);
-}
-
-#lightbox-overlay.open {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.lightbox-content {
-  position: relative;
-  max-width: 90vw;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.lightbox-img {
-  max-width: 100%;
-  max-height: 80vh;
-  object-fit: contain;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-}
-
-#lightbox-close {
-  position: absolute;
-  top: -40px;
-  right: 0;
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #1A1A1A;
-  cursor: pointer;
-  padding: 8px;
-  font-family: 'Montserrat', sans-serif;
-  transition: opacity 0.3s;
-}
-
-#lightbox-close:hover {
-  opacity: 0.5;
-}
-
-/* ══════════════════════════════════════════
-   RESPONSIVE DESIGN & ADAPTATIONS
-   ══════════════════════════════════════════ */
-@media (max-width: 992px) {
-  .story-container {
-    grid-template-columns: 1fr;
-    gap: 60px;
-  }
-  #artist-story-space {
-    padding: 80px 24px 100px;
-  }
-}
-
-@media (max-width: 768px) {
-  #selected-archive-space {
-    padding: 80px 20px 60px;
-  }
-  .archive-header h2 {
-    font-size: 26px;
-  }
-  #selected-archive-grid {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  #selected-archive-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .pebble-word {
-    font-size: 12px;
-    padding: 8px 16px;
-  }
+/* 클릭 피드백 — 살짝 눌리는 느낌 */
+.pebble-word:active {
+  transform: scale(0.97) !important;
 }
