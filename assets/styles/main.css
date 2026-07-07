@@ -23,14 +23,15 @@
 
 html, body {
   width: 100%;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
-  position: fixed;
-  background-color: var(--bone-white);
+  min-height: 100vh;
+  min-height: 100svh;
+  background-color: #F5F5F3;
   -webkit-font-smoothing: antialiased;
-  color: var(--ink);
-  font-family: 'Noto Sans KR', sans-serif;
+  color: #1A1A1A;
+  font-family: 'EB Garamond', 'Noto Serif KR', serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 /* Scrollbar styling for premium look */

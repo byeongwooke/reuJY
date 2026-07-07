@@ -12,7 +12,6 @@
   
   <link rel="stylesheet" href="assets/styles/main.css" />
   <link rel="stylesheet" href="assets/styles/home.css" />
-  <script src="data/notes.js" defer></script>
 </head>
 <body>
 
@@ -25,214 +24,75 @@
     </div>
   </div>
 
-  <!-- ── FIXED GLOBAL HEADER & NAV ── -->
-  <a id="main-artist-name" href="./index.html" class="main-entrance">REU JY | 류지영</a>
-
-  <nav id="top-text-nav" class="main-entrance" aria-label="메인 네비게이션">
-    <a href="./archive.html">Archive</a>
-    <a href="./process.html">Process</a>
-    <a href="./notes.html">Notes</a>
-  </nav>
-
-  <!-- ── EXHIBITION FLOATING CARD ── -->
-  <a id="exhibition-floating-card"
-     href="https://www.instagram.com/p/DWsdw0KGATu/"
-     target="_blank"
-     rel="noopener noreferrer"
-     aria-label="전시 인스타그램 페이지로 이동">
-    <span id="exhibition-text">EXHIBITION  04.19 — 05.18  |  @REU JY</span>
-    <span class="exhibition-venue">beviamo espresso bar</span>
-  </a>
+  <!-- ── FIXED LOGO ONLY (Zero Noise Header) ── -->
+  <a id="main-artist-name" href="./index.html">REU JY | 류지영</a>
 
   <!-- ══════════════════════════════════════════
-       MAIN CONTENT PORTAL (Dual Horizon Banner)
+       SINGLE FLOW LAYOUT
        ══════════════════════════════════════════ -->
-  <main id="main-container" aria-hidden="true">
-    <!-- Dual Banner Section displaying artist works with hover effects -->
-    <div id="dual-banner-section">
-      <div class="banner-half" id="banner-left" onclick="location.href='./archive.html'">
-        <div class="banner-slides"></div>
-        <span class="banner-label">Photography</span>
-      </div>
-      <div class="banner-half" id="banner-right" onclick="location.href='./archive.html?tab=visualizing'">
-        <div class="banner-slides"></div>
-        <span class="banner-label">Visual Art</span>
-      </div>
-      
-      <!-- Scroll Down Indicator -->
-      <div class="scroll-indicator" onclick="document.getElementById('latest-note-section').scrollIntoView({ behavior: 'smooth' })">
-        <span class="scroll-text">Scroll Down</span>
-        <span class="scroll-arrow">↓</span>
-      </div>
-    </div>
+  <main>
+    <!-- 1. Scatter Intro Space (canvas-flow) -->
+    <section id="scatter-intro-space">
+      <!-- Pebble words dynamically placed here -->
+    </section>
 
-    <!-- ── LATEST NOTE PREVIEW SECTION ── -->
-    <section id="latest-note-section" class="scroll-reveal">
-      <!-- Dynamically populated carousel -->
+    <!-- 2. Selected Archive Space (masonry-dense) -->
+    <section id="selected-archive-space">
+      <div class="archive-header">
+        <h2 id="current-archive-title">ARCHIVE</h2>
+        <p id="current-archive-count">0 items</p>
+      </div>
+      <div id="selected-archive-grid">
+        <!-- Masonry items populated here -->
+      </div>
+    </section>
+
+    <!-- 3. Artist Story Space (serene-manifesto) -->
+    <section id="artist-story-space">
+      <div class="story-container">
+        <div class="story-left">
+          <h3>Statement</h3>
+          <div class="artist-statement" id="artist-statement">Loading statement...</div>
+        </div>
+        <div class="story-right">
+          <div class="exhibition-block">
+            <h3>Solo Exhibitions</h3>
+            <ul class="exhibition-list" id="solo-exhibitions-list">
+              <!-- Solo exhibition items -->
+            </ul>
+          </div>
+          <div class="exhibition-block">
+            <h3>Group Exhibitions</h3>
+            <ul class="exhibition-list" id="group-exhibitions-list">
+              <!-- Group exhibition items -->
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
+  <!-- ══════════════════════════════════════════
+       PREMIUM LIGHTBOX OVERLAY
+       ══════════════════════════════════════════ -->
+  <div id="lightbox-overlay" aria-hidden="true" role="dialog" aria-label="이미지 크게 보기">
+    <div class="lightbox-content">
+      <button id="lightbox-close" aria-label="닫기">✕</button>
+      <img src="" alt="" class="lightbox-img" id="lightbox-img" />
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       INTERACTION SCRIPTS
+       ══════════════════════════════════════════ -->
   <script>
-    /* ══════════════════════════════════════════
-       DUAL HORIZON ROLLING BANNER ENGINE
-       ══════════════════════════════════════════ */
-    class RollingBanner {
-      constructor(containerId, images, intervalTime = 7000) {
-        this.container = document.querySelector(`#${containerId} .banner-slides`);
-        this.images = images;
-        this.currentIndex = 0;
-        this.intervalTime = intervalTime;
-        this.timer = null;
-        this.isTransitioning = false;
-        
-        // Drag/swipe state
-        this.startX = 0;
-        this.currentX = 0;
-        this.isDragging = false;
-        this.dragThreshold = 80;
-        
-        this.init();
-      }
-      
-      init() {
-        if (!this.images || this.images.length === 0) return;
-        
-        this.currentSlide = this.createSlideElement(this.images[this.currentIndex]);
-        this.currentSlide.classList.add('active', 'ken-burns');
-        this.container.appendChild(this.currentSlide);
-        
-        this.startAutoPlay();
-        this.bindEvents();
-      }
-      
-      createSlideElement(src) {
-        const slide = document.createElement('div');
-        slide.className = 'banner-slide';
-        slide.style.backgroundImage = `url('${src}')`;
-        return slide;
-      }
-      
-      startAutoPlay() {
-        this.stopAutoPlay();
-        this.timer = setInterval(() => {
-          this.next();
-        }, this.intervalTime);
-      }
-      
-      stopAutoPlay() {
-        if (this.timer) {
-          clearInterval(this.timer);
-          this.timer = null;
-        }
-      }
-      
-      pause() {
-        this.stopAutoPlay();
-      }
-      
-      resume() {
-        this.startAutoPlay();
-      }
-      
-      next() {
-        const nextIndex = (this.currentIndex + 1) % this.images.length;
-        this.transitionTo(nextIndex);
-      }
-      
-      prev() {
-        const prevIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-        this.transitionTo(prevIndex);
-      }
-      
-      transitionTo(index) {
-        if (index === this.currentIndex) return;
-        if (this.isTransitioning) return;
-        
-        this.isTransitioning = true;
-        const oldSlide = this.currentSlide;
-        const newSlide = this.createSlideElement(this.images[index]);
-        
-        this.container.appendChild(newSlide);
-        
-        // Force reflow
-        void newSlide.offsetWidth;
-        
-        newSlide.classList.add('active', 'ken-burns');
-        
-        this.currentIndex = index;
-        this.currentSlide = newSlide;
-        
-        setTimeout(() => {
-          if (oldSlide && oldSlide.parentNode === this.container) {
-            this.container.removeChild(oldSlide);
-          }
-          this.isTransitioning = false;
-        }, 1500);
-      }
-      
-      bindEvents() {
-        const bannerHalf = this.container.closest('.banner-half');
-        if (!bannerHalf) return;
-        
-        // Mouse events
-        bannerHalf.addEventListener('mousedown', (e) => this.dragStart(e.clientX));
-        window.addEventListener('mousemove', (e) => this.dragMove(e.clientX));
-        window.addEventListener('mouseup', () => this.dragEnd());
-        
-        // Touch events
-        bannerHalf.addEventListener('touchstart', (e) => {
-          if (e.touches.length === 1) {
-            this.dragStart(e.touches[0].clientX);
-          }
-        }, { passive: true });
-        
-        bannerHalf.addEventListener('touchmove', (e) => {
-          if (e.touches.length === 1) {
-            this.dragMove(e.touches[0].clientX);
-          }
-        }, { passive: true });
-        
-        bannerHalf.addEventListener('touchend', () => this.dragEnd());
-      }
-      
-      dragStart(clientX) {
-        this.startX = clientX;
-        this.isDragging = true;
-        this.stopAutoPlay();
-      }
-      
-      dragMove(clientX) {
-        if (!this.isDragging) return;
-        this.currentX = clientX;
-      }
-      
-      dragEnd() {
-        if (!this.isDragging) return;
-        this.isDragging = false;
-        
-        const deltaX = this.currentX - this.startX;
-        
-        if (this.currentX !== 0) {
-          if (deltaX > this.dragThreshold) {
-            this.prev();
-          } else if (deltaX < -this.dragThreshold) {
-            this.next();
-          }
-        }
-        
-        this.startX = 0;
-        this.currentX = 0;
-        
-        this.startAutoPlay();
-      }
-    }
+    const WORDS = [
+      "Photography", "Visualizing", "Ghost", "Deja Vu", 
+      "Representation", "Gaze", "Void", "Texture", "Horizon", "Trace"
+    ];
 
-    const gate            = document.getElementById('gate-background');
-    const mainContainer   = document.getElementById('main-container');
-    const exhibitionCard  = document.getElementById('exhibition-floating-card');
-
-    // Load resources
     const PHOTOGRAPHY_IMAGES = Array.from({ length: 29 }, (_, i) => `assets/photography/reujy_photography_${i}.jpg`);
+
     const VISUALIZING_IMAGES = [
       'assets/visualizing/reujy_visualizing_0____.jpg',
       'assets/visualizing/reujy_visualizing_1____.jpg',
@@ -250,139 +110,372 @@
       'assets/visualizing/reujy_visualizing_13____.jpg'
     ];
 
-    // Gate screen to landing page transition
-    window.addEventListener('DOMContentLoaded', () => {
-      // Init rolling banners
-      const leftBanner = new RollingBanner('banner-left', PHOTOGRAPHY_IMAGES, 7000);
-      const rightBanner = new RollingBanner('banner-right', VISUALIZING_IMAGES, 7000);
+    // Aesthetic conceptual mappings linking keywords to existing images
+    const CATEGORY_MAP = {
+      "Photography": PHOTOGRAPHY_IMAGES,
+      "Visualizing": VISUALIZING_IMAGES,
+      "Ghost": [
+        'assets/photography/reujy_photography_3.jpg',
+        'assets/photography/reujy_photography_5.jpg',
+        'assets/photography/reujy_photography_8.jpg',
+        'assets/photography/reujy_photography_14.jpg',
+        'assets/photography/reujy_photography_19.jpg',
+        'assets/photography/reujy_photography_21.jpg',
+        'assets/visualizing/reujy_visualizing_0____.jpg',
+        'assets/visualizing/reujy_visualizing_1____.jpg',
+        'assets/visualizing/reujy_visualizing_10_Untitled_종이에 수채와 색연필__2008.jpg'
+      ],
+      "Deja Vu": [
+        'assets/photography/reujy_photography_0.jpg',
+        'assets/photography/reujy_photography_6.jpg',
+        'assets/photography/reujy_photography_12.jpg',
+        'assets/photography/reujy_photography_17.jpg',
+        'assets/photography/reujy_photography_24.jpg',
+        'assets/photography/reujy_photography_28.jpg',
+        'assets/visualizing/reujy_visualizing_2_Feather__16x22_2018.jpg',
+        'assets/visualizing/reujy_visualizing_4___40x55cm_2024 (1).jpg',
+        'assets/visualizing/reujy_visualizing_12_a woman in move_종이에 먹과 파스텔_40x55cm_2025.jpg'
+      ],
+      "Representation": [
+        'assets/photography/reujy_photography_2.jpg',
+        'assets/photography/reujy_photography_7.jpg',
+        'assets/photography/reujy_photography_11.jpg',
+        'assets/photography/reujy_photography_16.jpg',
+        'assets/photography/reujy_photography_22.jpg',
+        'assets/photography/reujy_photography_27.jpg',
+        'assets/visualizing/reujy_visualizing_3_Adventure_천에 아크릴_72x117cm_2024.jpg',
+        'assets/visualizing/reujy_visualizing_6___40x55cm_2025 (1).jpg',
+        'assets/visualizing/reujy_visualizing_8_Candle light_사진캔버스 위에 아크릴_40x57cm_2024.jpg'
+      ],
+      "Gaze": [
+        'assets/photography/reujy_photography_4.jpg',
+        'assets/photography/reujy_photography_9.jpg',
+        'assets/photography/reujy_photography_13.jpg',
+        'assets/photography/reujy_photography_18.jpg',
+        'assets/photography/reujy_photography_23.jpg',
+        'assets/visualizing/reujy_visualizing_9_Parfume_종이에 립스틱_40x55cm_2025.jpg',
+        'assets/visualizing/reujy_visualizing_11_a man_종이에 수채_16.6x25.5cm_2024.jpg'
+      ],
+      "Void": [
+        'assets/photography/reujy_photography_1.jpg',
+        'assets/photography/reujy_photography_10.jpg',
+        'assets/photography/reujy_photography_15.jpg',
+        'assets/photography/reujy_photography_20.jpg',
+        'assets/photography/reujy_photography_25.jpg',
+        'assets/visualizing/reujy_visualizing_5___40x55cm_2024 (2).jpg',
+        'assets/visualizing/reujy_visualizing_7___45x60cm_2024.jpg',
+        'assets/visualizing/reujy_visualizing_13____.jpg'
+      ],
+      "Texture": [
+        'assets/photography/reujy_photography_26.jpg',
+        'assets/photography/reujy_photography_28.jpg',
+        'assets/visualizing/reujy_visualizing_2_Feather__16x22_2018.jpg',
+        'assets/visualizing/reujy_visualizing_3_Adventure_천에 아크릴_72x117cm_2024.jpg',
+        'assets/visualizing/reujy_visualizing_8_Candle light_사진캔버스 위에 아크릴_40x57cm_2024.jpg',
+        'assets/visualizing/reujy_visualizing_9_Parfume_종이에 립스틱_40x55cm_2025.jpg',
+        'assets/visualizing/reujy_visualizing_12_a woman in move_종이에 먹과 파스텔_40x55cm_2025.jpg'
+      ],
+      "Horizon": [
+        'assets/photography/reujy_photography_1.jpg',
+        'assets/photography/reujy_photography_6.jpg',
+        'assets/photography/reujy_photography_12.jpg',
+        'assets/photography/reujy_photography_18.jpg',
+        'assets/photography/reujy_photography_24.jpg'
+      ],
+      "Trace": [
+        'assets/photography/reujy_photography_3.jpg',
+        'assets/photography/reujy_photography_11.jpg',
+        'assets/photography/reujy_photography_19.jpg',
+        'assets/photography/reujy_photography_27.jpg',
+        'assets/visualizing/reujy_visualizing_0____.jpg',
+        'assets/visualizing/reujy_visualizing_1____.jpg',
+        'assets/visualizing/reujy_visualizing_6___40x55cm_2025 (1).jpg'
+      ]
+    };
 
-      setTimeout(() => {
-        gate.classList.add('fade-out');
-        document.body.classList.add('loaded');
-        
-        setTimeout(() => {
-          mainContainer.setAttribute('aria-hidden', 'false');
-          mainContainer.classList.add('visible');
-          exhibitionCard.classList.add('revealed');
-        }, 800);
-      }, 2500);
+    const container = document.getElementById('scatter-intro-space');
+    const placedElements = [];
 
-      /* 1. 날짜 기준 정렬 및 최신 3개 추출 */
-      const latestNotes = [...NOTES]
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 3);
-      
-      /* 2. Carousel 영역에 데이터 삽입 */
-      const container = document.getElementById('latest-note-section');
-      if (container && latestNotes.length > 0) {
-        const cardsHtml = latestNotes.map(note => {
-          const excerpt = note.contentKr ? (note.contentKr.length > 150 ? note.contentKr.substring(0, 150) + '...' : note.contentKr) : '';
-          return `
-            <div class="note-card" data-id="${note.id}">
-              <!-- Card Front -->
-              <div class="note-card-front">
-                <div style="flex: 1; overflow: hidden; position: relative;">
-                  <img src="${note.image}" class="note-card-image" alt="${note.title}" style="width: 100%; height: 100%; object-fit: cover;" />
-                </div>
-                <div style="padding: 20px 24px; background: #F4F1EA; border-top: 1px solid rgba(72,83,32,0.05);">
-                  <span style="font-family: 'Montserrat', sans-serif; font-size: 9px; color: var(--mid); letter-spacing: 2px; text-transform: uppercase; display: block;">Note 0${note.id}</span>
-                  <h4 style="font-family: 'Noto Serif KR', serif; font-size: 16px; font-weight: 400; color: var(--army-green); margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${note.title}</h4>
-                </div>
-              </div>
-              <!-- Card Back -->
-              <div class="note-card-back">
-                <div class="note-card-back-header">
-                  <span class="note-date" style="font-family: 'Montserrat', sans-serif; font-size: 11px; color: var(--mid); letter-spacing: 2px; display: block; margin-bottom: 8px;">${note.date}</span>
-                  <h4 style="font-family: 'Noto Serif KR', serif; font-size: 20px; font-weight: 300; color: var(--army-green); line-height: 1.4; margin-bottom: 20px; word-break: keep-all;">${note.title}</h4>
-                </div>
-                <p class="note-excerpt" style="font-family: 'Noto Serif KR', serif; font-size: 13.5px; font-weight: 300; line-height: 1.8; color: #444444; text-align: justify; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; word-break: keep-all;">${excerpt}</p>
-                <span class="note-card-link" style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; color: var(--army-green); text-transform: uppercase; letter-spacing: 1px; margin-top: auto; align-self: flex-start; display: flex; align-items: center; gap: 4px;">Read More →</span>
-              </div>
-            </div>
-          `;
-        }).join('');
+    // Helper: Debounce window actions
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
 
-        container.innerHTML = `
-          <div class="card-flip-notice">· CLICK OR HOVER CARD TO REVEAL THOUGHTS ·</div>
-          <div class="notes-carousel-container">
-            ${cardsHtml}
-          </div>
-        `;
-
-        initFlipInteraction(container);
+    // Helper: Check overlap between words
+    function isOverlapping(x, y, w, h) {
+      const padding = 40; // 단어 사이의 최소 안전 여백 보장
+      for (let el of placedElements) {
+        if (x < el.x + el.w + padding &&
+            x + w + padding > el.x &&
+            y < el.y + el.h + padding &&
+            y + h + padding > el.y) {
+          return true;
+        }
       }
+      return false;
+    }
 
-      // Initialize Scroll Reveal and scroll listener
-      initScrollReveal();
-    });
+    // Anti-Collision Packing Engine
+    function scatterPebbles() {
+      container.innerHTML = '';
+      placedElements.length = 0;
 
-    // Touch and click handling for 3D flip card interaction
-    function initFlipInteraction(container) {
-      const cards = container.querySelectorAll('.note-card');
-      
-      cards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          const isTouch = window.matchMedia("(pointer: coarse)").matches;
-          
-          if (isTouch) {
-            // Touch devices (mobile/tablet)
-            if (e.target.closest('.note-card-link') && card.classList.contains('flipped')) {
-              const id = card.getAttribute('data-id');
-              location.href = `notes.html?id=${id}`;
-              return;
-            }
-            
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const isFlipped = card.classList.contains('flipped');
-            cards.forEach(c => c.classList.remove('flipped'));
-            
-            if (!isFlipped) {
-              card.classList.add('flipped');
-            }
-          } else {
-            // Mouse pointer (desktop)
-            const id = card.getAttribute('data-id');
-            location.href = `notes.html?id=${id}`;
-          }
+      const vW = container.clientWidth;
+      const vH = container.clientHeight;
+
+      WORDS.forEach((word, index) => {
+        const el = document.createElement('div');
+        el.className = 'pebble-word';
+        el.innerText = word;
+        container.appendChild(el);
+
+        // 가상 크기 측정 (폰트 사이즈 기반 대략적 너비/높이 계산)
+        const elW = el.offsetWidth || (word.length * 9 + 48);
+        const elH = el.offsetHeight || 44;
+
+        let x, y, attempts = 0;
+        const maxAttempts = 150; // 좌표 탐색 한계점
+
+        do {
+          // 화면 가장자리에 너무 붙지 않도록 10%~90% 마진 바운더리 안에서 난수 생성
+          x = Math.random() * (vW - elW - 100) + 50;
+          y = Math.random() * (vH - elH - 100) + 50;
+          attempts++;
+        } while (isOverlapping(x, y, elW, elH) && attempts < maxAttempts);
+
+        // 확정된 겹치지 않는 좌표 기록
+        placedElements.push({ x, y, w: elW, h: elH });
+
+        // 요소 스타일 실제 고정
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+
+        // 웰컴 촤라락 순차적 스태거 흩뿌림 애니메이션 작동
+        setTimeout(() => {
+          el.style.opacity = '1';
+          el.style.transform = 'scale(1) translate3d(0, 0, 0)';
+        }, index * 120); // 0.12초 간격 딜레이 순차 노출
+
+        // 클릭 시 해당 단어로 아카이브 데이터 연동 처리 인터랙션
+        el.addEventListener('click', () => {
+          document.getElementById('selected-archive-space').scrollIntoView({ behavior: 'smooth' });
+          loadSpecificArchive(word); // 클릭된 단어 카테고리로 저장소 렌더링 함수 연동
         });
       });
     }
 
-    function initScrollReveal() {
-      const revealEl = document.querySelector('.scroll-reveal');
-      const scrollIndicator = document.querySelector('.scroll-indicator');
-      const mainContainer = document.getElementById('main-container');
-      
-      if (mainContainer && scrollIndicator) {
-        mainContainer.addEventListener('scroll', () => {
-          if (mainContainer.scrollTop > 50) {
-            scrollIndicator.classList.add('hide');
-          } else {
-            scrollIndicator.classList.remove('hide');
-          }
+    // ══════════════════════════════════════════
+    // SELECTED ARCHIVE ENGINE (Masonry & Captions)
+    // ══════════════════════════════════════════
+    const archiveGridContainer = document.getElementById('selected-archive-grid');
+    const lightboxOverlay      = document.getElementById('lightbox-overlay');
+    const lightboxImg          = document.getElementById('lightbox-img');
+    const lightboxClose        = document.getElementById('lightbox-close');
 
-          // Toggle header text color when scrolled past the banner section
-          if (mainContainer.scrollTop > window.innerHeight - 80) {
-            document.body.classList.add('scrolled-past');
-          } else {
-            document.body.classList.remove('scrolled-past');
-          }
-        });
+    // High performance ResizeObserver to reflow masonry columns
+    const gridResizeObserver = new ResizeObserver((entries) => {
+      entries.forEach(entry => {
+        resizeGridItem(entry.target);
+      });
+    });
+
+    // Precision Masonry dynamic aspect-ratio resizing
+    function resizeGridItem(item) {
+      const img = item.querySelector('.archive-item-image');
+      if (!img) return;
+
+      const setSpan = () => {
+        const rowHeight = 15;
+        const rowGap = 30;
+        const imgHeight = img.getBoundingClientRect().height || img.offsetHeight;
+        
+        if (imgHeight > 0) {
+          const rowSpan = Math.ceil((imgHeight + rowGap) / (rowHeight + rowGap));
+          item.style.gridRowEnd = `span ${rowSpan}`;
+        }
+      };
+
+      if (img.complete) {
+        setSpan();
+      } else {
+        img.onload = setSpan;
       }
-
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15 });
-
-      if (revealEl) observer.observe(revealEl);
     }
+
+    function resizeAllGridItems() {
+      const items = archiveGridContainer.querySelectorAll('.archive-item');
+      items.forEach(resizeGridItem);
+    }
+
+    // Trigger stagger entrance animation for archive items
+    function triggerArchiveCascade() {
+      const items = archiveGridContainer.querySelectorAll('.archive-item');
+      items.forEach((item, index) => {
+        item.classList.remove('animate-arrival');
+        void item.offsetWidth; // Force reflow
+        item.style.animationDelay = `${0.05 + index * 0.05}s`;
+        item.classList.add('animate-arrival');
+      });
+    }
+
+    // Load dynamic categories to grid
+    function loadSpecificArchive(word) {
+      const titleEl = document.getElementById('current-archive-title');
+      const countEl = document.getElementById('current-archive-count');
+      const sectionEl = document.getElementById('selected-archive-space');
+      
+      // Make archive section active
+      sectionEl.classList.add('visible');
+      
+      // Update label contents
+      titleEl.innerText = word;
+      
+      const images = CATEGORY_MAP[word] || [];
+      countEl.innerText = `${images.length} works`;
+      
+      // Clear container children
+      archiveGridContainer.replaceChildren();
+      
+      // Map category label for caption styling
+      const category = (word === 'Photography') ? 'photography' : 'visualizing';
+      
+      images.forEach((src, index) => {
+        const item = document.createElement('div');
+        item.className = 'archive-item';
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'archive-item-image';
+        img.alt = `${word} - ${index + 1}`;
+        img.loading = 'lazy';
+
+        const captionText = getMuseumCaption(src, category, index);
+
+        const caption = document.createElement('div');
+        caption.className = 'archive-item-caption';
+        caption.innerText = captionText;
+
+        item.appendChild(img);
+        item.appendChild(caption);
+
+        // Lightbox trigger
+        item.addEventListener('click', () => {
+          lightboxImg.src = src;
+          lightboxOverlay.classList.add('open');
+          lightboxOverlay.setAttribute('aria-hidden', 'false');
+        });
+
+        archiveGridContainer.appendChild(item);
+        
+        // Observe item for masonry calculations
+        gridResizeObserver.observe(item);
+        resizeGridItem(item);
+      });
+
+      triggerArchiveCascade();
+    }
+
+    // Parse filename to extract description tokens
+    function getMuseumCaption(src, category, index) {
+      if (category === 'photography') {
+        return `Photography #${String(index + 1).padStart(2, '0')}`;
+      }
+      
+      try {
+        const parts = src.split('/');
+        const filename = decodeURIComponent(parts[parts.length - 1]).replace('.jpg', '');
+        
+        // Format: reujy_visualizing_{index}_{Title}_{Material}_{Size}_{Year}
+        const tokens = filename.split('_');
+        if (tokens.length >= 4) {
+          const detailTokens = tokens.slice(3);
+          const cleanTokens = detailTokens.map(t => t.trim()).filter(t => t !== '');
+          if (cleanTokens.length > 0) {
+            return cleanTokens.join(', ');
+          }
+        }
+      } catch (e) {
+        console.error("Caption parsing error:", e);
+      }
+      
+      return `Visual Art #${String(index + 1).padStart(2, '0')}`;
+    }
+
+    // Lightbox overlays closing
+    function closeLightbox() {
+      lightboxOverlay.classList.remove('open');
+      lightboxOverlay.setAttribute('aria-hidden', 'true');
+      setTimeout(() => { lightboxImg.src = ''; }, 350);
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxOverlay.addEventListener('click', (e) => {
+      if (e.target === lightboxOverlay) {
+        closeLightbox();
+      }
+    });
+
+    // ══════════════════════════════════════════
+    // ASYNC BIOGRAPHY LOADER
+    // ══════════════════════════════════════════
+    function loadArtistBio() {
+      fetch('data/bio.json')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('artist-statement').innerText = data.statement;
+          
+          const soloList = document.getElementById('solo-exhibitions-list');
+          soloList.innerHTML = data.solo_exhibitions.map(ex => `
+            <li class="exhibition-item">
+              <span class="exhibition-year">${ex.year}</span>
+              <span class="exhibition-details">
+                <span class="exhibition-title">${ex.title}</span>, ${ex.venue}, ${ex.location}
+              </span>
+            </li>
+          `).join('');
+          
+          const groupList = document.getElementById('group-exhibitions-list');
+          groupList.innerHTML = data.group_exhibitions.map(ex => `
+            <li class="exhibition-item">
+              <span class="exhibition-year">${ex.year}</span>
+              <span class="exhibition-details">
+                <span class="exhibition-title">${ex.title}</span>, ${ex.venue}, ${ex.location}
+              </span>
+            </li>
+          `).join('');
+          
+          document.getElementById('artist-story-space').classList.add('visible');
+        })
+        .catch(err => console.error("Error loading biography:", err));
+    }
+
+    // ══════════════════════════════════════════
+    // LIFECYCLE EVENT CONTROLS
+    // ══════════════════════════════════════════
+    window.addEventListener('DOMContentLoaded', () => {
+      const gate = document.getElementById('gate-background');
+
+      // Async fetch profile statement
+      loadArtistBio();
+
+      // Gate entrance timeout
+      setTimeout(() => {
+        gate.classList.add('fade-out');
+        document.body.classList.add('loaded');
+        
+        // Trigger scatter pebble animations
+        scatterPebbles();
+      }, 2500);
+    });
+
+    window.addEventListener('resize', debounce(() => {
+      scatterPebbles();
+      resizeAllGridItems();
+    }, 200));
   </script>
 </body>
 </html>
