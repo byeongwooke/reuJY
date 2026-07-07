@@ -89,13 +89,21 @@
       const vH = container.clientHeight;
 
       const isMobile = vW <= 768;
+
+      // [핵심 조치] 헤더 엘리먼트의 실제 높이를 동적으로 측정하고 안전 마진을 더합니다.
+      const headerEl = document.getElementById('main-artist-name');
+      const headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 80;
+      const headerSafetyMargin = isMobile ? 30 : 50; 
+      const headerForbiddenZone = headerHeight + headerSafetyMargin; // 절대로 들어가면 안 되는 상단 억제선
+
       const config = {
         minFontSize: isMobile ? 11 : 14,
         maxFontSize: isMobile ? 20 : 34,
         collisionPadding: isMobile ? 12 : 35, // 초기 간격 설정
         safeZone: isMobile ? 20 : 80,
         baseOffset: isMobile ? 10 : 40,
-        maxRotation: isMobile ? 25 : 40       // 모바일에서는 기울기 범위를 좁혀 면적 낭비 방지
+        maxRotation: isMobile ? 25 : 40,      // 모바일에서는 기울기 범위를 좁혀 면적 낭비 방지
+        maxAttempts: 200
       };
 
       const startX = vW / 2;
@@ -138,7 +146,10 @@
           do {
             // 모바일/PC 각 환경에 최적화된 가장자리 여백 적용
             targetX = Math.random() * (vW - boxW - config.safeZone) + config.baseOffset;
-            targetY = Math.random() * (vH - boxH - config.safeZone) + config.baseOffset;
+            
+            // [수학적 교정] 난수로 y축을 생성하되, 무조건 상단 금지구역(headerForbiddenZone)보다 아래쪽에서만 생성되도록 가두어버립니다.
+            const yRange = Math.max(10, vH - boxH - headerForbiddenZone - config.safeZone);
+            targetY = Math.random() * yRange + headerForbiddenZone;
             attempts++;
 
             if (!isOverlapping(targetX, targetY, boxW, boxH, currentPadding)) {
@@ -146,7 +157,7 @@
               placedElements.push({ x: targetX, y: targetY, w: boxW, h: boxH });
               break;
             }
-          } while (attempts < 200);
+          } while (attempts < config.maxAttempts);
 
           if (!placed) {
             // 200번 시도해도 실패하면 -> 폰트 크기 1px, 간격 2px 줄이고 다시 200번 도전
