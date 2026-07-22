@@ -8,7 +8,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@400;500&family=Noto+Sans+KR:wght@300;400;600;700&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;600;700&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="assets/styles/main.css" />
   <link rel="stylesheet" href="assets/styles/archive.css" />
@@ -16,7 +16,9 @@
 <body>
 
   <!-- ── FIXED GLOBAL HEADER & NAV ── -->
-  <a id="main-artist-name" href="./index.html">REU JY | 류지영</a>
+  <header id="archive-header">
+    <a id="main-artist-name" href="./index.html">REU JY | 류지영</a>
+  </header>
 
   <nav id="top-text-nav" aria-label="메인 네비게이션">
     <a href="./archive.html" class="active">Archive</a>
@@ -24,27 +26,13 @@
     <a href="./notes.html">Notes</a>
   </nav>
 
-  <!-- ── EXHIBITION FLOATING CARD ── -->
-  <a id="exhibition-floating-card"
-     href="https://www.instagram.com/p/DWsdw0KGATu/"
-     target="_blank"
-     rel="noopener noreferrer"
-     aria-label="전시 인스타그램 페이지로 이동">
-    <span id="exhibition-text">EXHIBITION  04.19 — 05.18  |  @REU JY</span>
-    <span class="exhibition-venue">beviamo espresso bar</span>
-  </a>
-
   <!-- ══════════════════════════════════════════
-       ARCHIVE SECTION — The Kinetic Cascade Gallery
+       ARCHIVE SECTION — The Dynamic Cascade Gallery
        ══════════════════════════════════════════ -->
   <main id="archive-section" aria-label="작품 아카이브">
-    <!-- Tab navigation -->
-    <div id="archive-tab-container">
-      <button class="archive-tab-button active" data-tab="photography" id="tab-photography">Photography</button>
-      <button class="archive-tab-button" data-tab="visualizing" id="tab-visualizing">Visualizing</button>
-    </div>
-
-    <!-- Density-First Masonry Grid -->
+    <h2 id="category-title" class="archive-title"></h2>
+    
+    <!-- Grid will dynamically change classes: .photo-masonry-grid vs .drawing-canvas-grid -->
     <div id="archive-grid-container">
       <!-- .archive-item elements will be dynamically generated here -->
     </div>
@@ -60,210 +48,8 @@
     </div>
   </div>
 
-  <script>
-    const PHOTOGRAPHY_IMAGES = Array.from({ length: 29 }, (_, i) => `assets/photography/reujy_photography_${i}.jpg`);
-    
-    const VISUALIZING_IMAGES = [
-      'assets/visualizing/reujy_visualizing_0____.jpg',
-      'assets/visualizing/reujy_visualizing_1____.jpg',
-      'assets/visualizing/reujy_visualizing_2_Feather__16x22_2018.jpg',
-      'assets/visualizing/reujy_visualizing_3_Adventure_천에 아크릴_72x117cm_2024.jpg',
-      'assets/visualizing/reujy_visualizing_4___40x55cm_2024 (1).jpg',
-      'assets/visualizing/reujy_visualizing_5___40x55cm_2024 (2).jpg',
-      'assets/visualizing/reujy_visualizing_6___40x55cm_2025 (1).jpg',
-      'assets/visualizing/reujy_visualizing_7___45x60cm_2024.jpg',
-      'assets/visualizing/reujy_visualizing_8_Candle light_사진캔버스 위에 아크릴_40x57cm_2024.jpg',
-      'assets/visualizing/reujy_visualizing_9_Parfume_종이에 립스틱_40x55cm_2025.jpg',
-      'assets/visualizing/reujy_visualizing_10_Untitled_종이에 수채와 색연필__2008.jpg',
-      'assets/visualizing/reujy_visualizing_11_a man_종이에 수채_16.6x25.5cm_2024.jpg',
-      'assets/visualizing/reujy_visualizing_12_a woman in move_종이에 먹과 파스텔_40x55cm_2025.jpg',
-      'assets/visualizing/reujy_visualizing_13____.jpg'
-    ];
+  <!-- Dynamic Archive Loader Engine -->
+  <script src="assets/scripts/archive-engine.js"></script>
 
-    const archiveGridContainer = document.getElementById('archive-grid-container');
-    const lightboxOverlay      = document.getElementById('lightbox-overlay');
-    const lightboxImg          = document.getElementById('lightbox-img');
-    const lightboxClose        = document.getElementById('lightbox-close');
-    const exhibitionCard       = document.getElementById('exhibition-floating-card');
-
-    let currentTab = 'photography';
-
-    // Page Entrance Trigger
-    window.addEventListener('DOMContentLoaded', () => {
-      document.body.classList.add('loaded');
-      setTimeout(() => {
-        exhibitionCard.classList.add('revealed');
-      }, 500);
-      
-      const urlParams = new URLSearchParams(window.location.search);
-      const startTab = urlParams.get('tab') || 'photography';
-      renderArchiveTab(startTab);
-    });
-
-    // Helper: Parse filename to create a clean museum-grade caption
-    function getMuseumCaption(src, category, index) {
-      if (category === 'photography') {
-        return `Photography #${String(index + 1).padStart(2, '0')}`;
-      }
-      
-      // Visualizing filename parsing
-      try {
-        const parts = src.split('/');
-        const filename = decodeURIComponent(parts[parts.length - 1]).replace('.jpg', '');
-        
-        // Format: reujy_visualizing_{index}_{Title}_{Material}_{Size}_{Year}
-        const tokens = filename.split('_');
-        if (tokens.length >= 4) {
-          const detailTokens = tokens.slice(3); // skip 'reujy', 'visualizing', and index
-          
-          // Filter out empty tokens
-          const cleanTokens = detailTokens.map(t => t.trim()).filter(t => t !== '');
-          
-          if (cleanTokens.length > 0) {
-            // Reconstruct clean caption string
-            return cleanTokens.join(', ');
-          }
-        }
-      } catch (e) {
-        console.error("Caption parsing error:", e);
-      }
-      
-      return `Visual Art #${String(index + 1).padStart(2, '0')}`;
-    }
-
-    // High performance ResizeObserver to reflow masonry columns
-    const gridResizeObserver = new ResizeObserver((entries) => {
-      entries.forEach(entry => {
-        resizeGridItem(entry.target);
-      });
-    });
-
-    // Precision Masonry dynamic aspect-ratio resizing
-    function resizeGridItem(item) {
-      const img = item.querySelector('.archive-item-image');
-      if (!img) return;
-
-      const setSpan = () => {
-        const rowHeight = parseInt(window.getComputedStyle(archiveGridContainer).getPropertyValue('grid-auto-rows')) || 15;
-        const rowGap = parseInt(window.getComputedStyle(archiveGridContainer).getPropertyValue('grid-row-gap')) || 30;
-        const imgHeight = img.getBoundingClientRect().height || img.offsetHeight;
-        
-        if (imgHeight > 0) {
-          const rowSpan = Math.ceil((imgHeight + rowGap) / (rowHeight + rowGap));
-          item.style.gridRowEnd = `span ${rowSpan}`;
-        }
-      };
-
-      if (img.complete) {
-        setSpan();
-      } else {
-        img.onload = setSpan;
-      }
-    }
-
-    function resizeAllGridItems() {
-      const items = archiveGridContainer.querySelectorAll('.archive-item');
-      items.forEach(resizeGridItem);
-    }
-
-    // Trigger stagger entrance animation
-    function triggerArchiveCascade() {
-      const items = archiveGridContainer.querySelectorAll('.archive-item');
-      items.forEach(item => {
-        item.classList.remove('animate-arrival');
-        void item.offsetWidth; // Force reflow
-        item.classList.add('animate-arrival');
-      });
-    }
-
-    // Dynamic Tab Renderer
-    function renderArchiveTab(tab) {
-      currentTab = tab;
-      
-      // Update tab buttons active classes
-      document.querySelectorAll('.archive-tab-button').forEach(btn => {
-        if (btn.getAttribute('data-tab') === tab) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
-      });
-
-      // Clear grid
-      archiveGridContainer.replaceChildren();
-      
-      const images = (tab === 'photography') ? PHOTOGRAPHY_IMAGES : VISUALIZING_IMAGES;
-      
-      images.forEach((src, index) => {
-        const item = document.createElement('div');
-        item.className = 'archive-item';
-        item.style.animationDelay = `${0.05 + index * 0.05}s`;
-
-        const img = document.createElement('img');
-        img.src = src;
-        img.className = 'archive-item-image';
-        img.alt = `${tab === 'photography' ? '사진' : '시각예술'} 작품 — ${index + 1}`;
-        img.loading = 'lazy';
-
-        const captionText = getMuseumCaption(src, tab, index);
-
-        const caption = document.createElement('div');
-        caption.className = 'archive-item-caption';
-        caption.innerText = captionText;
-
-        item.appendChild(img);
-        item.appendChild(caption);
-
-        // Lightbox trigger
-        item.addEventListener('click', () => {
-          lightboxImg.src = src;
-          lightboxOverlay.classList.add('open');
-          lightboxOverlay.setAttribute('aria-hidden', 'false');
-        });
-
-        archiveGridContainer.appendChild(item);
-        
-        // Observe item for masonry calculations
-        gridResizeObserver.observe(item);
-        resizeGridItem(item);
-      });
-
-      triggerArchiveCascade();
-    }
-
-    // Tab switcher events
-    document.querySelectorAll('.archive-tab-button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tab = btn.getAttribute('data-tab');
-        if (tab !== currentTab) {
-          renderArchiveTab(tab);
-        }
-      });
-    });
-
-    // Lightbox Controls
-    function closeLightbox() {
-      lightboxOverlay.classList.remove('open');
-      lightboxOverlay.setAttribute('aria-hidden', 'true');
-      setTimeout(() => { lightboxImg.src = ''; }, 350);
-    }
-
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightboxOverlay.addEventListener('click', (e) => {
-      if (e.target === lightboxOverlay) {
-        closeLightbox();
-      }
-    });
-
-    // Keyboard ESC to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightboxOverlay.classList.contains('open')) {
-        closeLightbox();
-      }
-    });
-
-    // Window Resize Event
-    window.addEventListener('resize', resizeAllGridItems);
-  </script>
 </body>
 </html>

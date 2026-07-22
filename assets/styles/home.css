@@ -82,3 +82,11 @@
   will-change: transform, opacity, left, top;
   /* 호버는 JS mouseenter/mouseleave가 inline style로 직접 제어함 */
 }
+
+.pebble-word-wrapper {
+  position: absolute;
+  cursor: pointer;
+  user-select: none;
+  /* 회전 / 컴포지트 레이어로 GPU 가속화 */
+  will-change: transform, opacity, left, top;
+}
